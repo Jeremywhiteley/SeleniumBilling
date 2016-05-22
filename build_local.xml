@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="webdriver-salesforce" default="exec" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+	<property name="src" value="./src" />
+	<property name="lib" value="./lib" />
+	<property name="bin" value="./bin" />
+	<property name="style" value="./config" />
+	<property name="config" value="./config" />
+	<property name="report" value="./report" />
+	<property name="archive" value="./archive" />
+	<path id="maven-ant-tasks.classpath" path="${lib}/maven-ant-tasks-2.1.3.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
+	<tstamp>
+		<format property='build_time' pattern='dd_MMM_yy_HH_mm_ss' />
+	</tstamp>
+	<property name="testresultsfolder" value="${archive}/${build_time}" />
+
+	<path id="test.classpath">
+		<pathelement location="${bin}" />
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<artifact:dependencies pathId="dependency.classpath">
+		<dependency groupId="junit" artifactId="junit" version="4.12" scope="test" />
+		<dependency groupId="org.seleniumhq.selenium" artifactId="selenium-java" version="2.47.1" scope="test" />
+		<dependency groupId="org.apache.commons" artifactId="commons-exec" version="1.3" scope="test" />
+		<dependency groupId="org.openqa.selenium.server" artifactId="selenium-server" version="1.0-20081010.060147" scope="test" />
+		<dependency groupId="commons-logging" artifactId="commons-logging-api" version="1.1" scope="test" />
+		<dependency groupId="mysql" artifactId="mysql-connector-java" version="5.1.36" scope="test" />
+		<dependency groupId="joda-time" artifactId="joda-time" version="2.8.1" scope="test" />
+		<dependency groupId="com.opera" artifactId="operadriver" version="1.5" scope="test" />
+		<dependency groupId="net.sourceforge.jexcelapi" artifactId="jxl" version="2.6.12" scope="test" />
+	</artifact:dependencies>
+
+	<target name="init">
+		<delete dir="${bin}" />
+		<mkdir dir="${bin}" />
+		<property file="${config}/config_local.properties" />
+		<replaceregexp file="./src/com/salesforce/tests/suites/CategorySuite.java" match=".*@IncludeCategory.*" replace="//@IncludeCategory" byline="true" />
+	</target>
+
+	<target name="set_conditions">
+		<condition property="is.category.replace.needed">
+			<isset property="Category" />
+		</condition>
+		<echo message="Current category tests are going to run is : ${Category}" />
+	</target>
+
+	<target name="replace" if="is.category.replace.needed">
+		<replace file="./src/com/salesforce/tests/suites/CategorySuite.java" token="//@IncludeCategory" value="@IncludeCategory(${Category}.class)" />
+	</target>
+
+	<target name="compile" depends="init,set_conditions,replace">
+		<javac source="1.8" srcdir="${src}" fork="false" destdir="${bin}" includeantruntime="false">
+			<classpath refid="dependency.classpath" />
+			<classpath>
+				<pathelement path="${bin}">
+				</pathelement>
+				<pathelement path="${config}">
+				</pathelement>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="SmokeTests" depends="compile">
+		<delete dir="${report}" />
+		<mkdir dir="${report}" />
+		<mkdir dir="${report}/xml" />
+		<mkdir dir="${report}/images" />
+
+		<junit printsummary="yes" haltonfailure="no" failureproperty="test.failed">
+			<classpath>
+				<pathelement location="${bin}" />
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<classpath refid="dependency.classpath" />
+			<formatter type="xml" />
+
+			<batchtest fork="yes" todir="${report}/xml">
+				<fileset dir="${src}">
+					<include name="**/*SmokeTest*.java" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<junitreport todir="${report}">
+			<fileset dir="${report}/xml">
+				<include name="TEST*.xml" />
+			</fileset>
+			<report format="frames" styledir="${style}" todir="${report}/html" />
+		</junitreport>
+
+		<mkdir dir="${testresultsfolder}" />
+		<copy todir="${testresultsfolder}">
+			<fileset dir="${report}" />
+		</copy>
+		<fail message="Test failure detected, check test results." if="test.failed" />
+
+	</target>
+
+	<target name="exec" depends="compile">
+		<delete dir="${report}" />
+		<mkdir dir="${report}" />
+		<mkdir dir="${report}/xml" />
+		<mkdir dir="${report}/images" />
+
+
+		<condition property="env" value="QA">
+			<not>
+				<isset property="env" />
+			</not>
+		</condition>
+		<condition property="tblName" value="All_Dev_Runs">
+			<not>
+				<isset property="tblName" />
+			</not>
+		</condition>
+
+		<junit printsummary="yes" haltonfailure="no" failureproperty="test.failed" showoutput="true">
+			<classpath>
+				<pathelement location="${bin}" />
+				<pathelement location="${config}" />
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<classpath refid="dependency.classpath" />
+			<formatter type="xml" />
+
+			<batchtest fork="yes" todir="${report}/xml">
+				<fileset dir="${src}">
+					<include name="**/*CategorySuite*.java" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+
+		<junitreport todir="${report}">
+			<fileset dir="${report}/xml">
+				<include name="TEST*.xml" />
+			</fileset>
+			<report format="frames" styledir="${style}" todir="${report}/html" />
+		</junitreport>
+
+		<mkdir dir="${testresultsfolder}" />
+		<copy todir="${testresultsfolder}">
+			<fileset dir="${report}" />
+		</copy>
+		<fail message="Test failure detected, check test results." if="test.failed" />
+
+	</target>
+
+</project>

@@ -1,0 +1,54 @@
+# OS Files #
+.DS_Store
+# Directories #
+/build/
+/bin/
+archive/
+target/
+doc/
+# Package Files #
+*.war
+*.ear
+*.db
+ 
+######################
+# Windows
+######################
+ 
+######################
+# OSX
+######################
+ 
+.DS_Store
+.svn
+ 
+# Thumbnails
+._*
+ 
+# Files that might appear on external disk
+.Trashes
+systemlog.txt 
+ 
+######################
+# Eclipse
+######################
+report/
+*.class
+.metadata 
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+bin/**
+local.properties
+.settings/
+.loadpath
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+######################
+# Image Files
+######################
+*.png
