@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Revenue Recognition Rule</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Revenue Recognition Rules</value>
+    </caseValues>
+    <fields>
+        <label><!-- First Manual Schedule Date --></label>
+        <name>First_Manual_Schedule_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- First Manual Schedule Month # --></label>
+        <name>First_Manual_Schedule_Month__c</name>
+    </fields>
+    <fields>
+        <label><!-- No of Manual Schedules --></label>
+        <name>No_of_Manual_Schedules__c</name>
+    </fields>
+    <fields>
+        <label><!-- Recognition Date --></label>
+        <name>Recognition_Date__c</name>
+        <picklistValues>
+            <masterLabel>Invoice Date</masterLabel>
+            <translation><!-- Invoice Date --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Revenue Recognition End Date</masterLabel>
+            <translation><!-- Revenue Recognition End Date --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Revenue Recognition Start Date</masterLabel>
+            <translation><!-- Revenue Recognition Start Date --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Service Activation Date</masterLabel>
+            <translation><!-- Service Activation Date --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Service End Date</masterLabel>
+            <translation><!-- Service End Date --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Recognition Type --></label>
+        <name>Recognition_Type__c</name>
+        <picklistValues>
+            <masterLabel>Daily Recognition Over Time</masterLabel>
+            <translation><!-- Daily Recognition Over Time --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Full Recognition on Specific Date</masterLabel>
+            <translation><!-- Full Recognition on Specific Date --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Manual Recognition</masterLabel>
+            <translation><!-- Manual Recognition --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Monthly Recognition Over Time</masterLabel>
+            <translation><!-- Monthly Recognition Over Time --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Weighted Monthly Recognition Over Time</masterLabel>
+            <translation><!-- Weighted Monthly Recognition Over Time --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Revenue Recognition Schedule - Total % --></label>
+        <name>Revenue_Recognition_Schedule_Total__c</name>
+    </fields>
+    <layouts>
+        <layout>Revenue Recognition Rule Layout</layout>
+        <sections>
+            <label><!-- Additional Details (For Manual Recognition) --></label>
+            <section>Additional Details (For Manual Recognition)</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Revenue Recognition Schedules can be created only for Revenue Recognition Rule of type &apos;Manual Recognition&apos; --></errorMessage>
+        <name>RevRec_Schedules_only_for_Manual</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The total % from the all the Revenue Recognition Schedules for your Revenue Recognition Rule cannot exceed 100% --></errorMessage>
+        <name>RevRec_Schedules_total_cant_exceed_100</name>
+    </validationRules>
+</CustomObjectTranslation>

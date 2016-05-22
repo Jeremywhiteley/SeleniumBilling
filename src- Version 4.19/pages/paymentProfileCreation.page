@@ -1,0 +1,207 @@
+<apex:page cache="false" standardController="Account" extensions="ControllerForPaymentMethod" sidebar="false" showHeader="false">
+      <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-1.5.1.min.js')}"  />
+       <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-ui-1.8.14.custom.min.js')}"/>
+       <script type="text/javascript" >
+       $j = jQuery.noConflict();
+           function disableBtn() {
+              isSaving = true;
+              $j('.disablebutton').addClass('btnDisabled');
+              $j('.disablebutton').attr({value:'Processing...',disabled:'disabled'});
+              $j('.disablebuttonSave').addClass('btnDisabled');
+              $j('.disablebuttonSave').attr('value','Processing...');
+                      
+          }
+       </script>
+     
+     
+      <script language="JavaScript" type="text/javascript">
+           
+      $j(document).ready(function() {
+         var slistOfCardTypes = '{!JSENCODE(slistOfCardTypes)}';
+         var listOfCardTypes = JSON.parse(slistOfCardTypes);
+         $j.each( listOfCardTypes, function( index, value ){
+              if(value == 'Visa'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Visa.png')}' /></td>";
+                  $j(".cardTypeClass").after(html);        
+              }else if(value == 'Mastercard'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Mastercard.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'American Express'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/AmericanExpress.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == '2CO'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/2CO.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Cirrus'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Cirrus.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Delta'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Delta.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Direct Debit'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/DirectDebit.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Discover'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Discover.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Ebay'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Ebay.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Maestro'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Maestro.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Moneybookers'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Moneybookers.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'PayPal'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/PayPal.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Sagepay'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Sagepay.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Solo'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Solo.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Switch'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/Switch.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Visa Electron'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/VisaElectron.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }else if(value == 'Western Union'){
+                  var html = "<td><img src='{!URLFOR($Resource.InvoiceIt, 'images/WesternUnion.png')}'/></td>";
+                  $j(".cardTypeClass").after(html);
+              }
+         });
+      });
+      
+          function Refresh(){
+              window.top.location.href = "/"+'{!JSENCODE(currentPageId) }';            
+          } 
+     </script>
+     <apex:stylesheet value="{!URLFOR($Resource.InvoiceIt, 'css/payment_css.css')}"/>
+     <apex:form id="main">
+         <apex:pageMessages id="messages"/>
+         <apex:outputPanel rendered="{!isDisable}" id="SubPanelFirst">
+             <div class="payment_MainFrame">                 
+                 <div class="payment_InnerFrame">        
+                     <table>
+                         <tbody>
+                              <tr>
+                                <td><h2><apex:outputLabel value="{!$Label.Payment_Profile_Information}"/></h2></td>                              
+                              </tr>
+                              <tr>
+                                <br/><br/><br/>
+                                <td><apex:outputLabel value="{!$Label.Payment_Enter_Card_Information}" /></td>
+                                <td><br/><br/><br/></td>                              
+                              </tr>                            
+                              <tr>                            
+                                <td><h2><apex:outputLabel value="{!$Label.Customer_Profile_ID}" rendered="{!isVisible}"/></h2></td>
+                                <td><h2><apex:outputText value="{!account.Customer_Profile_ID__c}" rendered="{!isVisible}"/></h2></td>                              
+                              </tr>                                                       
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_First_Name}" /></td>
+                                <td><apex:inputField value="{!paymentMethod.Billing_First_Name__c}" id="firstname" required="true"/></td>
+                                <td> * </td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Last_Name}"/></td>
+                                <td><apex:inputField value="{!paymentMethod.Billing_Last_Name__c}" id="lastname"  required="true"/></td>
+                                <td> * </td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Phone}" /></td>
+                                <td><apex:inputText value="{!paymentMethod.Billing_Phone__c}"/></td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Address}" /></td>
+                                <td><apex:inputText value="{!paymentMethod.Billing_Address__c}"/></td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_City}" /></td>
+                                <td><apex:inputField value="{!paymentMethod.Billing_City__c}"/></td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_State_Provision}" /></td>
+                                <td><apex:inputField value="{!paymentMethod.Billing_State_Province__c}"/></td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Postal_Code}" /></td>
+                                <td><apex:inputField value="{!paymentMethod.Billing_Zip_Postal__c}"/></td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Country}" /></td>
+                                <td><apex:inputText value="{!paymentMethod.Billing_Country__c}"/></td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Card_Type}" /></td>
+                                <td><apex:inputField value="{!paymentMethod.Card_Type__c}" required="true"/></td>
+                                <td class="cardTypeClass">*</td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Card_Number}" /></td>
+                                <td><apex:inputField value="{!paymentMethod.Card_Number__c}" id="card" required="true"/></td>
+                                <td> * </td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_CVV}" /></td>
+                                <td><apex:inputSecret value="{!paymentMethod.CVV__c}" maxlength="4" id="cvv" required="true"/></td>
+                                <td> * </td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Card_Expiration_Date}" /></td>
+                                <td><apex:inputField value="{!paymentMethod.Card_Expiration_Month__c}"/><apex:inputField value="{!paymentMethod.Card_Expiration_Year__c}"/></td>
+                                <td> * </td>
+                              </tr>
+                              <tr>
+                                <td><apex:outputLabel value="{!$Label.Payment_Default}" /></td>
+                                <td><apex:inputCheckbox value="{!paymentMethod.Default__c}"/></td>
+                              </tr>
+                              <tr></tr>
+                              <tr></tr>
+                              <tr></tr>                                  
+                              <tr>                  
+                                <td><br/><br/></td>
+                                <td>                                      
+                                   <apex:actionStatus id="saveStatus">
+                                        <apex:facet name="stop">
+                                            <apex:commandButton value="{!$Label.Submit_Payment_Profile_Button}" action="{!processProfileCreation}" reRender="main" status="saveStatus" styleClass="disablebuttonSave" onclick="disableBtn();"/>
+                                        </apex:facet>
+                                        <apex:facet name="start">
+                                            <apex:commandButton value="Processing..." disabled="true" status="saveStatus"/>
+                                        </apex:facet>
+                                    </apex:actionStatus>                     
+                                    <apex:commandButton value="Cancel" onclick="Refresh();" immediate="true" styleClass="disablebutton"/>                                                                  
+                                </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>                 
+              </div>          
+          </apex:outputPanel>
+          <apex:outputPanel rendered="{!isShow}" id="SubPanelSecond">
+             <div class="payment_MainFrame">                 
+                 <div class="payment_InnerFrame">        
+                     <table>
+                         <tbody>
+                              <tr>                            
+                                <td><h2><apex:outputLabel value="{!$Label.Customer_Profile_ID} : " /></h2></td>
+                                <td><h2><apex:outputText value="{!account.Customer_Profile_ID__c}"/></h2></td>                              
+                              </tr> 
+                              <tr>                            
+                                <td><h2><apex:outputLabel value=" {!$Label.Payment_Profile_ID} : " /></h2></td>
+                                <td><h2><apex:outputText value="{!paymentMethod.Payment_Profile_ID__c}"/></h2></td>                              
+                              </tr>
+                              <tr>                  
+                                <td><br/><br/></td>
+                                <td>                                      
+                                   <apex:commandButton value="Close" onclick="Refresh();" immediate="true" rendered="{!!isDisable}"/>                                                            
+                                </td>
+                              </tr>                           
+                         </tbody>
+                      </table>
+                  </div>                 
+              </div>          
+          </apex:outputPanel>          
+     </apex:form>
+  </apex:page>

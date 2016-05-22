@@ -1,0 +1,216 @@
+<apex:page standardController="Invoice__c" extensions="ControllerCreateCreditNote"  sidebar="true">
+       <apex:includeScript value="{!URLFOR($Resource.AJS, 'ajs/js/jquery.min.js')}" />
+       <apex:includeScript value="{!URLFOR($Resource.AJS, 'ajs/js/jshashtable.js')}" />
+       <apex:includeScript value="{!URLFOR($Resource.AJS, 'ajs/js/jquery.nf.js')}" />
+       <style type="text/css">
+            .custPopup{
+                background-color: white;
+                border-width: 3px;
+                border-style: solid;
+                z-index: 9999;
+                left: 50%;
+                padding:10px;
+                position: absolute;
+                overflow-y:scroll;
+                overflow-x:hidden;
+                height: 350px;
+                /* These are the 3 css properties you will need to change so the popup 
+                displays in the center of the screen. First set the width. Then set 
+                margin-left to negative half of what the width is. You can add 
+                the height property for a fixed size pop up if you want.*/
+                width: 900px;
+                margin-left: -380px;
+                top:75px;
+            }
+            .popupBackground{
+                background-color:black;
+                opacity: 0.20;
+                filter: alpha(opacity = 20);
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 9998;
+            }
+      </style>
+      
+      <script>   
+        function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");                 
+            for(var i=0; i<inputCheckBox.length; i++){         
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){                                    
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        } 
+     </script>
+     <apex:form id="form">
+         
+         <apex:sectionHeader title="Credit Note" subtitle="Credit Note"/>
+         <div class="bPageTitle">
+                <div class="ptBreadcrumb"> 
+                    <a href="/{!HTMLENCODE(invoice.id)}">Back to invoice :  {!HTMLENCODE(invoice.Name)}</a>
+                </div>
+          </div>
+         <apex:pageMessages id="message1"></apex:pageMessages>          
+         <!-- Step 1 where user can select/edit the values-->
+         <apex:pageBlock title="Invoice Lines" rendered="{!ListOfInvoiceLineWrapper.size > 0 && isConfirm}">      
+          <apex:actionFunction action="{!display}" name="display" reRender="pbTable" status="counterStatus"/>
+          
+                  <apex:pageBlockSection columns="2" >
+                    <apex:repeat value="{!$ObjectType.Invoice__c.FieldSets.Partial_Credit_Fields}" var="fieldAPI" >
+                        <apex:outputField value="{!invoice[fieldAPI]}" />   
+                    </apex:repeat> 
+                  </apex:pageBlockSection><br/><br/>  
+                  
+               <apex:pageBlockTable value="{!ListOfInvoiceLineWrapper}" var="invoiceLines" id="pbTable" >
+                    <apex:column headerValue="Select">
+                     <apex:inputCheckbox value="{!invoiceLines.isSelected}" id="inputId"/>
+                   </apex:column>
+                   
+                   <apex:repeat value="{!$ObjectType.Invoice_Lines__c.FieldSets.PartialCreditFields}" var="fieldAPI">
+                    <apex:column headerValue="{!fieldAPI.Label}">
+                      <apex:outputField value="{!invoiceLines.invoiceline[fieldAPI]}"/>
+                    </apex:column>
+                    
+                   </apex:repeat>
+                   
+                   <apex:column headerValue="Credit Type Applied">
+                      <apex:inputField styleClass="creditTypeClass" value="{!invoiceLines.creditLine.Credit_Type_Applied__c}" id="creditType" rendered="{!invoiceLines.invoiceline.Price_Type__c != 'One Time' && invoiceLines.invoiceline.Price_Type__c != 'Usage'}" >  
+                        <apex:actionSupport event="onchange"  action="{!display}" reRender="pbTable,counterStatus" status="actstatus"/>
+                      </apex:inputField> <br/>  
+                      <apex:actionStatus id="actstatus" >
+                        <apex:facet name="start" >
+                          <span class="waitingDescription">Please Wait...</span>
+                          <img src="/img/loading.gif" />                
+                        </apex:facet>
+                     </apex:actionStatus>
+                   </apex:column>
+                   
+                   <apex:column headerValue="Start Date" >
+                    <apex:inputField value="{!invoiceLines.creditLine.Charge_Start_Date__c}"  id="startDate" rendered="{!invoiceLines.invoiceline.Price_Type__c != 'One Time' && invoiceLines.invoiceline.Price_Type__c != 'Usage' && invoiceLines.creditLine.Credit_Type_Applied__c != 'Amount' && invoiceLines.creditLine.Credit_Type_Applied__c != ''}"/>
+                   </apex:column> 
+                   
+                   <apex:column headerValue="End Date" >
+                    <apex:inputField value="{!invoiceLines.creditLine.Charge_End_Date__c}" id="endDate" rendered="{!invoiceLines.invoiceline.Price_Type__c != 'One Time'&& invoiceLines.invoiceline.Price_Type__c != 'Usage' && invoiceLines.creditLine.Credit_Type_Applied__c != 'Amount' && invoiceLines.creditLine.Credit_Type_Applied__c != ''}"/>
+                   </apex:column> 
+
+                    <apex:column headerValue="Amount to credit" id="amount">
+                         <apex:inputtext styleClass="amountClass" alt="{!invoiceLines.invoiceline.Name}<-->{!invoiceLines.invoiceline.Credit_Line_Amount__c}<-->{!invoiceLines.invoiceline.Net_Total__c}"  value="{!invoiceLines.creditAmount}"  rendered="{!invoiceLines.creditLine.Credit_Type_Applied__c != 'Date'}" />  
+                         <apex:outputtext value="{!invoiceLines.creditAmount}"  rendered="{!invoiceLines.creditLine.Credit_Type_Applied__c == 'Date'}" />  
+                    </apex:column>
+                    
+                     <apex:column headerValue="View Credit" >
+                         <apex:commandButton value="View" action="{!displayCreditLines}" reRender="tstpopup" rendered="{!!OR(ISNULL(invoiceLines.invoiceline.Credit_Line_Amount__c),ISBLANK(invoiceLines.invoiceline.Credit_Line_Amount__c)) && invoiceLines.invoiceline.Credit_Line_Amount__c != 0}">
+                            <apex:param value="{!invoiceLines.invoiceline.id}" name="invoiceLineId"/>  
+                          </apex:commandButton>  
+                    </apex:column>
+                </apex:pageBlockTable>
+            
+            <apex:commandButton value="Back To Invoice" action="{!cancel}" rendered="{!isRender}"/>        
+            <apex:pageBlockButtons location="top">  
+                 <apex:actionStatus id="SaveButtonStatus">
+                  <apex:facet name="stop">
+                   <apex:outputPanel >
+                    <apex:commandButton value="Next" action="{!calculateCreditLineAmount}" rendered="{!!isRender && isConfirm}"  reRender="form" status="SaveButtonStatus" />
+                    <apex:commandButton value="{!$Label.ButtonCancel}" action="{!cancel}"/>
+                   </apex:outputPanel>
+                  </apex:facet>
+                  <apex:facet name="start">
+                   <apex:outputPanel >
+                    <apex:commandButton value="Processing..." disabled="true" />
+                    <apex:commandButton value="Processing..." disabled="true" />
+                   </apex:outputPanel>
+                  </apex:facet>
+                 </apex:actionStatus>
+            </apex:pageBlockButtons>
+               
+          </apex:pageBlock>
+         <!-- End of Step 1-->  
+        
+         <!-- Step 2 where user can view the values-->
+          <apex:pageBlock title="Invoice Lines" id="theBlock" rendered="{!ListOfInvoiceLineWrapper.size > 0 && !isConfirm}">
+              <apex:pageMessages id="message"></apex:pageMessages>
+                  <apex:pageBlockSection columns="2" >
+                    <apex:repeat value="{!$ObjectType.Invoice__c.FieldSets.Partial_Credit_Fields}" var="fieldAPI" >
+                        <apex:outputField value="{!invoice[fieldAPI]}" />   
+                    </apex:repeat> 
+                  </apex:pageBlockSection><br/><br/>  
+               
+              
+               <apex:pageBlockTable value="{!ListOfInvoiceLineWrapper}" var="invoiceLines" id="pb2Table" >
+                   <apex:column headerValue="Select">
+                     <apex:inputCheckbox value="{!invoiceLines.isSelected}" disabled="true"/>
+                   </apex:column>
+                   
+                   <apex:repeat value="{!$ObjectType.Invoice_Lines__c.FieldSets.PartialCreditFields}" var="fieldAPI">
+                    <apex:column headerValue="{!fieldAPI.Label}">
+                      <apex:outputField value="{!invoiceLines.invoiceline[fieldAPI]}"/>
+                    </apex:column>
+                   </apex:repeat>
+                   
+                   <apex:column headerValue="Credit Type Applied">
+                     <apex:outputField value="{!invoiceLines.creditLine.Credit_Type_Applied__c}" />  
+                   </apex:column>
+                   
+                   <apex:column headerValue="Start Date">
+                    <apex:outputField value="{!invoiceLines.creditLine.Charge_Start_Date__c}" rendered="{!invoiceLines.invoiceline.Price_Type__c != 'One Time' && invoiceLines.invoiceline.Price_Type__c != 'Usage' && invoiceLines.creditLine.Credit_Type_Applied__c != 'Amount' && invoiceLines.creditLine.Credit_Type_Applied__c != ''}"/>
+                   </apex:column> 
+                   
+                   <apex:column headerValue="End Date">
+                    <apex:outputField value="{!invoiceLines.creditLine.Charge_End_Date__c}"  rendered="{!invoiceLines.invoiceline.Price_Type__c != 'One Time' && invoiceLines.invoiceline.Price_Type__c != 'Usage' && invoiceLines.creditLine.Credit_Type_Applied__c != 'Amount' && invoiceLines.creditLine.Credit_Type_Applied__c != ''}"/>
+                   </apex:column> 
+            
+                   <apex:column headerValue="Amount to credit" value="{!invoiceLines.creditAmount}"/>
+        
+                     <apex:column headerValue="View Credit" >
+                         <apex:commandButton value="View" action="{!displayCreditLines}" reRender="tstpopup" rendered="{!!OR(ISNULL(invoiceLines.invoiceline.Credit_Line_Amount__c),ISBLANK(invoiceLines.invoiceline.Credit_Line_Amount__c)) && invoiceLines.invoiceline.Credit_Line_Amount__c != 0}">
+                            <apex:param value="{!invoiceLines.invoiceline.id}" name="invoiceLineId"/>  
+                          </apex:commandButton>  
+                    </apex:column>
+                    
+                </apex:pageBlockTable>
+               
+               <apex:pageBlockButtons location="top">  
+                 <apex:actionStatus id="SaveButtonStatus">
+                  <apex:facet name="stop">
+                   <apex:outputPanel >
+                    <apex:commandButton value="Back" action="{!backToCreditNote}" reRender="form" status="SaveButtonStatus" />
+                    <apex:commandButton value="{!$Label.ButtonConfirm}" action="{!createCreditNote}" rendered="{!!isRender && !isConfirm}"  reRender="form" status="SaveButtonStatus" />
+                    <apex:commandButton value="{!$Label.ButtonCancel}" action="{!cancel}"/>
+                   </apex:outputPanel>
+                  </apex:facet>
+                  <apex:facet name="start">
+                   <apex:outputPanel >
+                    <apex:commandButton value="Processing..." disabled="true" />
+                    <apex:commandButton value="Processing..." disabled="true" />
+                    <apex:commandButton value="Processing..." disabled="true" />
+                   </apex:outputPanel>
+                  </apex:facet>
+                 </apex:actionStatus>
+            </apex:pageBlockButtons>
+         </apex:pageBlock>
+         <!-- End of Step 2-->  
+
+         <!-- Start of popup block -->  
+          <apex:outputPanel id="tstpopup"  >
+            <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayPopUp}"/>
+                <apex:outputPanel styleClass="custPopup" layout="block" rendered="{!displayPopUp}">
+                       <apex:pageBlock title="Credit Lines"> 
+                               <apex:pageBlockTable value="{!listOfCreditLines}" var="creditline" rendered="{!listOfCreditLines.size > 0}">
+                                <apex:repeat value="{!$ObjectType.Credit_Line__c.FieldSets.CreditLine_Partial_Credit_Fields}" var="fieldAPI">
+                                    <apex:column headerValue="{!fieldAPI.Label}">
+                                      <apex:outputField value="{!creditline[fieldAPI]}"/>
+                                    </apex:column>
+                                </apex:repeat>  
+                               </apex:pageBlockTable>
+                            <apex:pageBlockButtons location="bottom">
+                                   <apex:commandButton value="Close" action="{!closePopup}" rerender="tstpopup,form"/>   
+                              </apex:pageBlockButtons>
+                    </apex:pageBlock> 
+                </apex:outputPanel>
+           </apex:outputPanel>
+        <!-- End of popup block -->            
+     </apex:form>
+    </apex:page>

@@ -1,0 +1,36 @@
+<apex:page standardController="Invoice__c" extensions="ControllerProformaInvToRegularInv">
+  <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-1.5.1.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-ui-1.8.14.custom.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.jQuery,'css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+  <script>
+        var isSaving;
+        isSaving = false;
+        $j = jQuery.noConflict();
+       function disableBtn() {
+            isSaving = true;
+            $j('.disablebutton').addClass('btnDisabled');
+            $j('.disablebutton').attr({value:'Processing...',disabled:'disabled'});
+            $j('.disablebuttonSave').addClass('btnDisabled');
+            $j('.disablebuttonSave').attr('value','Processing...');
+            
+        }
+  </script>
+  
+  <div class="bPageTitle">
+        <apex:sectionHeader title="Create Regular Invoice for " subtitle="{!Invoice__c.Name}" />
+        <div class="ptBreadcrumb">&nbsp;«&nbsp;
+            <a href="/{!HTMLENCODE(Invoice__c.Id)}">{!HTMLENCODE($Label.dispatchProducts_Back)} Invoice : {!HTMLENCODE(Invoice__c.Name)}</a>
+        </div>
+  </div>
+    
+  <apex:pagemessages ></apex:pagemessages>
+  <apex:form >
+  <apex:outputField value="{!Invoice__c.Name}" rendered="false"/>
+  <apex:outputField value="{!Invoice__c.Invoice_State__c}" rendered="false"/>
+  <apex:outputField value="{!Invoice__c.Invoice_Status__c}" rendered="false"/>
+  <apex:outputField value="{!Invoice__c.Regular_Invoice__c}" rendered="false"/>
+  
+  <apex:commandButton action="{!createRegularInvoice}" rendered="{!executeActionMethod}" onclick="disableBtn();" value="{!$Label.ButtonConfirm}"  styleClass="disablebuttonSave"/>
+  <apex:commandButton action="{!cancel}" value="{!$Label.ButtonCancel}" styleClass="disablebutton" rendered="{!executeActionMethod}"/>
+  </apex:form>
+</apex:page>

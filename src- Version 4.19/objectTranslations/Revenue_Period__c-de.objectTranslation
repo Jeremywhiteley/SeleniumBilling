@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <caseType>Nominative</caseType>
+        <plural>false</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <caseValues>
+        <caseType>Nominative</caseType>
+        <plural>true</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <caseValues>
+        <caseType>Accusative</caseType>
+        <plural>false</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <caseValues>
+        <caseType>Accusative</caseType>
+        <plural>true</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <caseValues>
+        <caseType>Genitive</caseType>
+        <plural>false</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <caseValues>
+        <caseType>Genitive</caseType>
+        <plural>true</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <caseValues>
+        <caseType>Dative</caseType>
+        <plural>false</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <caseValues>
+        <caseType>Dative</caseType>
+        <plural>true</plural>
+        <value><!-- Revenue Period --></value>
+    </caseValues>
+    <fields>
+        <label><!-- Deferred Balance (Actual) --></label>
+        <name>Deferred_Balance_Actual__c</name>
+    </fields>
+    <fields>
+        <label><!-- Deferred Balance (Projected) --></label>
+        <name>Deferred_Balance_Projected__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue Amount (Actual) --></label>
+        <name>Revenue_Amount_Actual__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue Amount (Projected) --></label>
+        <name>Revenue_Amount_Projected__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue Period Closed --></label>
+        <name>Revenue_Period_Closed__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue Period End Date --></label>
+        <name>Revenue_Period_End_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue Period Start Date --></label>
+        <name>Revenue_Period_Start_Date__c</name>
+    </fields>
+    <gender><!-- Neuter --></gender>
+    <layouts>
+        <layout>Revenue Period Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Projection Vs Actual --></label>
+            <section>Projection Vs Actual</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel><!-- Revenue Period Name --></nameFieldLabel>
+    <validationRules>
+        <errorMessage><!-- This revenue period is closed. You cannot add/remove revenue transactions against a closed period. --></errorMessage>
+        <name>Changes_cannot_be_made_to_Closed_Periods</name>
+    </validationRules>
+</CustomObjectTranslation>

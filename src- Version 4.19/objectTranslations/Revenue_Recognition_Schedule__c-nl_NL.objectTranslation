@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Revenue Recognition Schedule --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Revenue Recognition Schedule --></value>
+    </caseValues>
+    <fields>
+        <help><!-- If the Revenue Recognition Rule date is Service Start Date, and the month # value is 1, then the the first revenue % will be recognized in the same month as the service start date. If the value is 2, then this will be recognized the next month and so on. --></help>
+        <label><!-- Month # --></label>
+        <name>Month__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue % --></label>
+        <name>Revenue_Percent__c</name>
+    </fields>
+    <fields>
+        <label><!-- Revenue Recognition Rule --></label>
+        <lookupFilter>
+            <errorMessage><!-- Revenue Recognition Schedules can be created only for Manual Recognition rules --></errorMessage>
+        </lookupFilter>
+        <name>Revenue_Recognition_Rule__c</name>
+        <relationshipLabel><!-- Revenue Recognition Schedules --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Schedule Date --></label>
+        <name>Schedule_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Schedule # for Sorting --></label>
+        <name>Schedule_for_Sorting__c</name>
+    </fields>
+    <gender><!-- Neuter --></gender>
+    <nameFieldLabel><!-- Schedule # --></nameFieldLabel>
+    <validationRules>
+        <errorMessage><!-- Please enter either Month or Schedule Date --></errorMessage>
+        <name>Schedule_Date_or_Month_validation</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The Schedule # field can only be numeric. Use values 1,2,3 etc --></errorMessage>
+        <name>Schedule_Name_can_only_be_numeric</name>
+    </validationRules>
+</CustomObjectTranslation>

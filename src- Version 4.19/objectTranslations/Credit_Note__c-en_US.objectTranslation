@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Credit Note</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Credit Notes</value>
+    </caseValues>
+    <fields>
+        <label><!-- Account --></label>
+        <name>Account__c</name>
+        <relationshipLabel><!-- Credit Notes --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Subtotal --></label>
+        <name>Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Billing Contact --></label>
+        <name>Billing_Contact__c</name>
+        <relationshipLabel><!-- Credit Notes --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Credit Note Date --></label>
+        <name>Credit_Note_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Credit Note Status --></label>
+        <name>Credit_Note_Status__c</name>
+        <picklistValues>
+            <masterLabel>Posted</masterLabel>
+            <translation><!-- Posted --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Currency --></label>
+        <name>CurrencyL__c</name>
+        <relationshipLabel><!-- Credit Notes --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Obsolete Discount Value --></label>
+        <name>Discount_Value__c</name>
+    </fields>
+    <fields>
+        <label><!-- Due Date --></label>
+        <name>Due_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Exchange Rate Applied --></label>
+        <name>Exchange_Rate_Applied__c</name>
+    </fields>
+    <fields>
+        <label><!-- Net Total --></label>
+        <name>Net_Total__c</name>
+    </fields>
+    <fields>
+        <label><!-- Number Of Credit Lines --></label>
+        <name>Number_Of_Credit_Lines__c</name>
+    </fields>
+    <fields>
+        <label><!-- Order --></label>
+        <name>Order__c</name>
+        <relationshipLabel><!-- Credit Notes --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Related Invoice --></label>
+        <name>Related_Invoice__c</name>
+        <relationshipLabel><!-- Credit Notes --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Shipping Contact --></label>
+        <name>Shipping_Contact__c</name>
+        <relationshipLabel><!-- Credit Notes (Shipping Contact) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Tax --></label>
+        <name>Tax__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Credit Note Value --></label>
+        <name>Total_Credit_Note_Value__c</name>
+    </fields>
+    <fields>
+        <label><!-- VAT --></label>
+        <name>VAT__c</name>
+    </fields>
+    <layouts>
+        <layout>Credit Note Layout</layout>
+        <sections>
+            <label><!-- Credit Note Status --></label>
+            <section>Credit Note Status</section>
+        </sections>
+        <sections>
+            <label><!-- Credit Note Value --></label>
+            <section>Credit Note Value</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

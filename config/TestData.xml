@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<testdata>
+	<servicecloud>
+		<test testname='test1'>
+			<parameter name='param1'>Value1</parameter>
+			<parameter name='param2'>Value2</parameter>
+		</test>
+		<test testname='test2'>
+			<parameter name='param1'>Value1</parameter>
+			<parameter name='param2'>Value2</parameter>
+		</test>
+	</servicecloud>
+	<salescloud>
+		<test testname='test3'>
+			<parameter name='param1'>Value1</parameter>
+			<parameter name='param2'>Value2</parameter>
+		</test>
+	</salescloud>
+</testdata>

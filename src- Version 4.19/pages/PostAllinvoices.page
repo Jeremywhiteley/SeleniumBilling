@@ -1,0 +1,18 @@
+<apex:page standardController="Invoice_Run__c" extensions="ClassForPostingInvoices">
+   <apex:form >
+    <apex:pageMessages id="messege"></apex:pageMessages>
+     <apex:sectionHeader title="Post Invoices"/>
+       <div class="bPageTitle">
+          <div class="ptBreadcrumb">&nbsp;«&nbsp;
+              <a href="/{!HTMLENCODE(runObj.Id)}">Back to Invoice Run:   {!HTMLENCODE(runObj.Name)}</a><br/>
+          </div>
+      </div>
+         <apex:pageBlock title="Post All Invoice's" id="pb">           
+                       
+               <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!isExecuteBatch}" value="Post All Invoice's" reRender="messege,pb"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>
+              </apex:pageBlockButtons>
+        </apex:pageBlock>
+   </apex:form>
+  </apex:page>

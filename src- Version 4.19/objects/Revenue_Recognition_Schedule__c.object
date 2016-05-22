@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>This object holds the revenue schedules related to manual revenue recognition rules</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Month__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If the Revenue Recognition Rule date is Service Start Date, and the month # value is 1, then the the first revenue % will be recognized in the same month as the service start date. If the value is 2, then this will be recognized the next month and so on.</inlineHelpText>
+        <label>Month #</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Revenue_Percent__c</fullName>
+        <externalId>false</externalId>
+        <label>Revenue %</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Revenue_Recognition_Rule__c</fullName>
+        <externalId>false</externalId>
+        <label>Revenue Recognition Rule</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>Revenue Recognition Schedules can be created only for Manual Recognition rules</errorMessage>
+            <filterItems>
+                <field>Revenue_Recognition_Rule__c.Recognition_Type__c</field>
+                <operation>equals</operation>
+                <value>Manual Recognition</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Revenue_Recognition_Rule__c</referenceTo>
+        <relationshipLabel>Revenue Recognition Schedules</relationshipLabel>
+        <relationshipName>Revenue_Recognition_Schedules</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Schedule_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Schedule Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Schedule_for_Sorting__c</fullName>
+        <externalId>false</externalId>
+        <formula>VALUE(Name)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Schedule # for Sorting</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Revenue Recognition Schedule</label>
+    <nameField>
+        <label>Schedule #</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Revenue Recognition Schedules</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Schedule_Date_or_Month_validation</fullName>
+        <active>true</active>
+        <description>Either schedule date or Month can be entered</description>
+        <errorConditionFormula>AND(Not(IsBlank(Month__c)),Not(IsBlank( Schedule_Date__c)))</errorConditionFormula>
+        <errorMessage>Please enter either Month or Schedule Date</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Schedule_Name_can_only_be_numeric</fullName>
+        <active>true</active>
+        <errorConditionFormula>!ISNUMBER(Name)</errorConditionFormula>
+        <errorDisplayField>Name</errorDisplayField>
+        <errorMessage>The Schedule # field can only be numeric. Use values 1,2,3 etc</errorMessage>
+    </validationRules>
+</CustomObject>
