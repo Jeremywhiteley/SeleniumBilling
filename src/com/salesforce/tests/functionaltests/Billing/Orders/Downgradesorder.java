@@ -6,18 +6,21 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.text.ParseException;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.salesforce.tests.functionaltests.CloudBaseTest;
 
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class Downgradesorder extends CloudBaseTest {
 	
 	@Test
-	public void downgrade() throws BiffException, IOException, InterruptedException,
+	public void test_Downgrade() throws BiffException, IOException, InterruptedException,
 	RowsExceededException, WriteException, ParseException {
 		
 				
@@ -43,7 +46,7 @@ public class Downgradesorder extends CloudBaseTest {
 		
 		salesCloudLeadsHome.verifyPageLoad().setViewFilter(view).verifyPageLoad().sortLeadsTableByLetter(filter).selectFromLeadsTable(name);
 		
-		Order.clickOnMidTerm().changeQty().increaseQty(decreaseqty).clickOnMidtermSaveButton();
+		Order.clickOnMidTerm().changeQty1().clickOnServiceEndDateDowngrade().decreaseQty(decreaseqty).clickOnMidtermSaveButton();
 		
 		assertThat("Quantity is not decreased to the line", Order.getHeaderText().toUpperCase(), containsString(name.toUpperCase()));
 

@@ -1,0 +1,49 @@
+<html xmlns:string="xalan://java.lang.String" xmlns:lxslt="http://xml.apache.org/xslt">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Test Results: All Errors</title>
+<link rel="stylesheet" type="text/css" title="Style" href="stylesheet.css">
+</head>
+<body onload="open('allclasses-frame.html','classListFrame')">
+<h1>Test Results.</h1>
+<h4>
+<a href="file://localhost/Users/jdapper/Dev/Git/WebDriver/JunitTest/archive/" target="_blank">View Archive</a>
+</h4>
+<table width="100%">
+<tr>
+<td align="left"></td><td align="right">Salesforce WebDriver Framework 2014</td>
+</tr>
+</table>
+<hr size="1">
+<h2>All Errors</h2>
+<table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
+<tr valign="top">
+<th>Class</th><th>Name</th><th>Status</th><th width="80%">Type</th><th nowrap>Time(s)</th><th>Screenshots</th>
+</tr>
+<tr valign="top" class="Error">
+<td><a href="com/salesforce/tests/suites/0_CategorySuite.html">CategorySuite</a></td><td><a name="testSelectBillingAccount_Bil"></a><a href="com/salesforce/tests/suites/0_CategorySuite.html#testSelectBillingAccount_Bil">testSelectBillingAccount_Bil</a></td><td>Error</td><td>2<br>
+<br>
+<code>java.lang.ArrayIndexOutOfBoundsException: 2<br>	at jxl.read.biff.SheetImpl.getCell(SheetImpl.java:356)<br>	at com.salesforce.utils.datastore.ExcelSheetDriver.ReadCell(Unknown Source)<br>	at com.salesforce.tests.functionaltests.Billing.Accounts.Createaccount.testSelectBillingAccount_Bil(Unknown Source)<br>
+</code></td><td>9.311</td><td><a href="../../images/testSelectBillingAccount_Bil">View</a></td>
+</tr>
+<tr valign="top" class="Error">
+<td><a href="com/salesforce/tests/suites/0_CategorySuite.html">CategorySuite</a></td><td><a name="test_PreviewInvoice"></a><a href="com/salesforce/tests/suites/0_CategorySuite.html#test_PreviewInvoice">test_PreviewInvoice</a></td><td>Error</td><td>Intermittent failure clicking on element<br>
+<br>
+<code>java.lang.RuntimeException: Intermittent failure clicking on element<br>	at com.salesforce.pages.PageBase.clickOnElement(Unknown Source)<br>	at com.salesforce.pages.Billing.Orders.orderpreviewinvoice.clickOnPreviewInvoice(Unknown Source)<br>	at com.salesforce.tests.functionaltests.Billing.Orders.Previewinvoiceoforder.test_PreviewInvoice(Unknown Source)<br>
+</code></td><td>208.345</td><td><a href="../../images/test_PreviewInvoice">View</a></td>
+</tr>
+<tr valign="top" class="Error">
+<td><a href="com/salesforce/tests/suites/0_CategorySuite.html">CategorySuite</a></td><td><a name="test_Downgrade"></a><a href="com/salesforce/tests/suites/0_CategorySuite.html#test_Downgrade">test_Downgrade</a></td><td>Error</td><td>Element not found in the cache - perhaps the page has changed since it was looked up Command duration or timeout: 45.19 seconds For documentation on this error, please visit: http://seleniumhq.org/exceptions/stale_element_reference.html Build info: version: '2.53.0', revision: '35ae25b1534ae328c771e0856c93e187490ca824', time: '2016-03-15 10:43:46' System info: host: 'mreddy-ltr', ip: '10.195.0.45', os.name: 'Windows 8.1', os.arch: 'amd64', os.version: '6.3', java.version: '1.8.0_91' Driver info: org.openqa.selenium.firefox.FirefoxDriver Capabilities [{applicationCacheEnabled=true, rotatable=false, handlesAlerts=true, databaseEnabled=true, version=46.0.1, platform=WINDOWS, nativeEvents=false, acceptSslCerts=true, webStorageEnabled=true, locationContextEnabled=true, browserName=firefox, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true}] Session ID: 29a84cd9-616e-4cf7-9c3f-4b6dfe71338f<br>
+<br>
+<code>org.openqa.selenium.StaleElementReferenceException: Element not found in the cache - perhaps the page has changed since it was looked up<br>Command duration or timeout: 45.19 seconds<br>For documentation on this error, please visit: http://seleniumhq.org/exceptions/stale_element_reference.html<br>Build info: version: '2.53.0', revision: '35ae25b1534ae328c771e0856c93e187490ca824', time: '2016-03-15 10:43:46'<br>System info: host: 'mreddy-ltr', ip: '10.195.0.45', os.name: 'Windows 8.1', os.arch: 'amd64', os.version: '6.3', java.version: '1.8.0_91'<br>Driver info: org.openqa.selenium.firefox.FirefoxDriver<br>Capabilities [{applicationCacheEnabled=true, rotatable=false, handlesAlerts=true, databaseEnabled=true, version=46.0.1, platform=WINDOWS, nativeEvents=false, acceptSslCerts=true, webStorageEnabled=true, locationContextEnabled=true, browserName=firefox, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true}]<br>Session ID: 29a84cd9-616e-4cf7-9c3f-4b6dfe71338f<br>	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)<br>	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:206)<br>	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:158)<br>	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:678)<br>	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:327)<br>	at org.openqa.selenium.remote.RemoteWebElement.getText(RemoteWebElement.java:179)<br>	at com.salesforce.pages.Billing.Orders.OrderHome.getHeaderText(Unknown Source)<br>	at com.salesforce.tests.functionaltests.Billing.Orders.Downgradesorder.test_Downgrade(Unknown Source)<br>Caused by: org.openqa.selenium.StaleElementReferenceException: Element not found in the cache - perhaps the page has changed since it was looked up<br>For documentation on this error, please visit: http://seleniumhq.org/exceptions/stale_element_reference.html<br>Build info: version: '2.53.0', revision: '35ae25b1534ae328c771e0856c93e187490ca824', time: '2016-03-15 10:43:46'<br>System info: host: 'mreddy-ltr', ip: '10.195.0.45', os.name: 'Windows 8.1', os.arch: 'amd64', os.version: '6.3', java.version: '1.8.0_91'<br>Driver info: driver.version: unknown<br>	at &lt;anonymous class&gt;.fxdriver.cache.getElementAt(resource://fxdriver/modules/web-element-cache.js:9454)<br>	at &lt;anonymous class&gt;.Utils.getElementAt(file:///C:/Users/MADHUS~1.RED/AppData/Local/Temp/anonymous6125719726576556373webdriver-profile/extensions/fxdriver@googlecode.com/components/command-processor.js:9039)<br>	at &lt;anonymous class&gt;.WebElement.getElementText(file:///C:/Users/MADHUS~1.RED/AppData/Local/Temp/anonymous6125719726576556373webdriver-profile/extensions/fxdriver@googlecode.com/components/command-processor.js:12092)<br>	at &lt;anonymous class&gt;.DelayedCommand.prototype.executeInternal_/h(file:///C:/Users/MADHUS~1.RED/AppData/Local/Temp/anonymous6125719726576556373webdriver-profile/extensions/fxdriver@googlecode.com/components/command-processor.js:12661)<br>	at &lt;anonymous class&gt;.fxdriver.Timer.prototype.setTimeout/&lt;.notify(file:///C:/Users/MADHUS~1.RED/AppData/Local/Temp/anonymous6125719726576556373webdriver-profile/extensions/fxdriver@googlecode.com/components/command-processor.js:625)<br>
+</code></td><td>273.076</td><td><a href="../../images/test_Downgrade">View</a></td>
+</tr>
+<tr valign="top" class="Error">
+<td><a href="com/salesforce/tests/suites/0_CategorySuite.html">CategorySuite</a></td><td><a name="lightningAccount"></a><a href="com/salesforce/tests/suites/0_CategorySuite.html#lightningAccount">lightningAccount</a></td><td>Error</td><td>Intermittent failure clicking on element<br>
+<br>
+<code>java.lang.RuntimeException: Intermittent failure clicking on element<br>	at com.salesforce.pages.PageBase.clickOnElement(Unknown Source)<br>	at com.salesforce.pages.Billing.Accounts.accountlightningpage.clickOnAccounts(Unknown Source)<br>	at com.salesforce.tests.functionaltests.Billing.Accounts.createlightningaccount.lightningAccount(Unknown Source)<br>
+</code></td><td>66.800</td><td><a href="../../images/lightningAccount">View</a></td>
+</tr>
+</table>
+</body>
+</html>

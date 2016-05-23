@@ -6,12 +6,16 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.text.ParseException;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
 import com.salesforce.tests.functionaltests.CloudBaseTest;
 
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class Createadhocinvoice extends CloudBaseTest {
 	
@@ -41,8 +45,8 @@ public class Createadhocinvoice extends CloudBaseTest {
 	salesCloudLeadsHome.verifyPageLoad().setViewFilter(view).verifyPageLoad().sortLeadsTableByLetter(filter).selectFromLeadsTable(name);
 	Adhoc.clickOnNewButton().clickOnInvoiceDate().clickOnTargetDate().clickOnGenerateInvoice();
 	
-	assertThat("Adhoc Invoice has not been generated", Adhoc.getHeaderText().toUpperCase(), containsString(name.toUpperCase()));
-	
+	assertThat("Adhoc Invoice has not been generated", Adhoc.getHeaderText().toUpperCase(), containsString("Invoice".toUpperCase()));
+
 	}
 
 }

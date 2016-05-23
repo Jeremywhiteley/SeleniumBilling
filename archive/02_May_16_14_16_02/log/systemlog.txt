@@ -1,0 +1,6 @@
+Mon May 02 14:16:11 IST 2016: Sending the following time into mysql: 2016-05-02 14:16:11.33
+Mon May 02 14:16:12 IST 2016: Executing test {testAddANewAccount_Sales}
+Mon May 02 14:16:25 IST 2016: Sending the following time into mysql: 2016-05-02 14:16:25.366
+Mon May 02 14:16:26 IST 2016: Executing test {testAddANewContact_Sales}
+Mon May 02 14:16:38 IST 2016: Sending the following time into mysql: 2016-05-02 14:16:38.678
+Mon May 02 14:16:39 IST 2016: Executing test {testAddANewOpportunity}

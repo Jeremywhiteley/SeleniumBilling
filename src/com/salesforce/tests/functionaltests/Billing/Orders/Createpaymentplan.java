@@ -19,7 +19,7 @@ import jxl.write.biff.RowsExceededException;
 public class Createpaymentplan extends CloudBaseTest{
 	
 	@Test
-	public void paymentplansTest() throws BiffException, IOException, InterruptedException,
+	public void test_PaymentPlans() throws BiffException, IOException, InterruptedException,
 	RowsExceededException, WriteException, ParseException {
 						
 		final String email = xlsUtil.ReadCell(xlsUtil.GetCell("Email"), 1);

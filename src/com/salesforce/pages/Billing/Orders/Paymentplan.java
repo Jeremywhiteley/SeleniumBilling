@@ -13,7 +13,7 @@ public class Paymentplan extends PageBase {
 	
 	By clickArrow = By.xpath("//img[@class='allTabsArrow']");
 	
-	By clickonpaymentplantab = By.xpath(".//*[@id='bodyCell']/div[3]/div[2]/table/tbody/tr[9]/td[2]/a");
+	By clickonpaymentplantab = By.xpath("//a/img[@title='Payment Plans']");
 	
 	By clickOnNew = By.xpath("//input[@name='new']");
 	
@@ -21,13 +21,13 @@ public class Paymentplan extends PageBase {
 	
 	By startdatelocator = By.xpath(".//*[@id='ep']/div[2]/div[3]/table/tbody/tr[4]/td[2]/span/span/a");
 	
-	By numberOfInstallments = By.xpath(".//*[@id='00N2800000AItOm']");
+	By numberOfInstallments = By.xpath("//label[contains(text(), 'No of Installments')]/../following::input[1]");
 	
-	By downpaymentlocator = By.xpath(".//*[@id='00N2800000AItOh']");
+	By downpaymentlocator = By.xpath("//label[contains(text(), 'Down Payment (%)')]/../following::input[1]");
 	
-	By Minimuminstallmentslocator = By.xpath(".//*[@id='00N2800000AItOl']");
+	By Minimuminstallmentslocator = By.xpath("//label[contains(text(), 'Minimum Installments')]/../following::input[1]");
 	
-	By Maxlocator = By.xpath(".//*[@id='00N2800000AItOk']");
+	By Maxlocator = By.xpath("//label[contains(text(), 'Maximum Installments')]/../following::input[1]");
 	
 	By savelocator = By.xpath("//input[@value=' Save ']");
 	

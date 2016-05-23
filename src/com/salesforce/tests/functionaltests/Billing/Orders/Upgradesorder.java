@@ -6,18 +6,21 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.text.ParseException;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.salesforce.tests.functionaltests.CloudBaseTest;
 
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class Upgradesorder extends CloudBaseTest{
 	
 	@Test
-	public void upgarde() throws BiffException, IOException, InterruptedException,
+	public void upgardeTest() throws BiffException, IOException, InterruptedException,
 	RowsExceededException, WriteException, ParseException {
 		
 				
@@ -43,7 +46,7 @@ public class Upgradesorder extends CloudBaseTest{
 		
 		salesCloudLeadsHome.verifyPageLoad().setViewFilter(view).verifyPageLoad().sortLeadsTableByLetter(filter).selectFromLeadsTable(name);
 		
-		Order.clickOnMidTerm().changeQty().increaseQty(increaseqty).clickOnMidtermSaveButton();
+		Order.clickOnMidTerm().changeQty().clickOnServiceEndDate().increaseQty(increaseqty).clickOnMidtermSaveButton();
 		
 		assertThat("Quantity is not increased to the line", Order.getHeaderText().toUpperCase(), containsString(name.toUpperCase()));
 

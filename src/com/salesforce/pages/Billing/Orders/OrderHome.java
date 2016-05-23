@@ -43,6 +43,8 @@ public class OrderHome extends PageBase {
 	
 	By addLocator = By.xpath("//a[contains(text(),'GenWatt Diesel 200kW')]/..//button[text()='Add']");  // //a[@id='ui-active-menuitem']/button
 	
+	By addLocator3 = By.xpath("//a[contains(text(),'GenWatt Propane 500kW')]/..//button[text()='Add']");  // //a[@id='ui-active-menuitem']/button
+	
 	By step2ButtonLocator = By.xpath(".//*[@id='j_id0:j_id3:j_id33:j_id34']/input[2]");
 	
 	By savelocator = By.xpath(".//*[@id='j_id0:j_id7:pb:j_id33:j_id35']");
@@ -59,7 +61,9 @@ public class OrderHome extends PageBase {
 	
 	By midtermsavelocator = By.xpath(".//*[@id='j_id0:j_id5:page4:j_id172:j_id173']");
 	
-	By startdatelocator = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges']/div[2]/table/tbody/tr[4]/td[11]/span/span/a");
+	By serviceenddatelocator = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges']/div[2]/table/tbody/tr[1]/td[12]/span/span/a");
+	
+	By startdatelocator = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges']/div[2]/table/tbody/tr[3]/td[11]/span/span/a");
 	
 	By startdatelocator1 = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges']/div[2]/table/tbody/tr[5]/td[11]/span/span/a");
 	
@@ -67,7 +71,17 @@ public class OrderHome extends PageBase {
 	
 	By changeqtylocator = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges:midBlock:0:j_id130:0:j_id131:0:j_id133']");
 	
-	By increaseqtylocator = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges:midBlock:0:j_id130:0:j_id131:3:j_id147']");
+    By changeqtylocator1 = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges:midBlock:1:j_id130:0:j_id131:0:j_id133']");
+
+	By increaseqtylocator = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges:midBlock:0:j_id130:0:j_id131:1:j_id147']");
+	
+	By decreseqtylocator = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges:midBlock:1:j_id130:0:j_id131:1:j_id147']");
+	
+	By downgradestartdate = By.xpath(".//*[@id='j_id0:j_id5:jobrateplancharges']/div[2]/table/tbody/tr[3]/td[12]/span/span/a");
+	
+	By subtotallocator = By.xpath(".//*[@id='ep']/div[2]/div[12]/table/tbody/tr[1]/td[2]");
+	
+	By tcvlocator = By.xpath(".//*[@id='ep']/div[2]/div[4]/table/tbody/tr[3]/td[4]");
 
 	public OrderHome clickOnNewButton() {
 		pagelogger.debug("Clicking on the New button...");
@@ -75,10 +89,36 @@ public class OrderHome extends PageBase {
 		return OrderHome.Instance;
 	}
 	
-	public String getHeaderText()
+	public OrderHome clickOnServiceEndDate() {
+		pagelogger.debug("Clicking on the service end  button...");
+		clickOnElement(serviceenddatelocator);
+		return OrderHome.Instance;
+	}
+	
+	public OrderHome clickOnServiceEndDateDowngrade() {
+		pagelogger.debug("Clicking on the service end  button...");
+		clickOnElement(downgradestartdate);
+		return OrderHome.Instance;
+	}
+	
+	public  String getHeaderText()
 	{
 		pagelogger.debug("Getting the Account Header text");
 		String val = findElement(orderheaderlocator).getText();
+		return val;
+	}
+	
+	public String getSubTotal()
+	{
+		pagelogger.debug("Getting the Account Header text");
+		String val = findElement(subtotallocator).getText();
+		return val;
+	}
+	
+	public String getTCV()
+	{
+		pagelogger.debug("Getting the Account Header text");
+		String val = findElement(tcvlocator).getText();
 		return val;
 	}
 	
@@ -181,24 +221,26 @@ public class OrderHome extends PageBase {
 	
 	public OrderHome clickOnAddButton() throws InterruptedException
 	{
-		
-		
+			
 		pagelogger.debug("adding product to order...");
-		
-		/**WebElement we = driver.findElement(addLocator);
-		Actions action = new Actions(driver);
-		action.moveToElement(we).perform();
-		WebElement Add= driver.findElement(addLocator);
-		action.click(Add).build().perform();*/
-
 
 		clickOnElement(addLocator);
-	
 	    //driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
 		Thread.sleep(40000);
 		
 		return OrderHome.Instance;
+	}
 	
+	public OrderHome clickOnAddButton2() throws InterruptedException
+	{
+			
+		pagelogger.debug("adding product to order...");
+
+		clickOnElement(addLocator3);
+	    //driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
+		Thread.sleep(40000);
+		
+		return OrderHome.Instance;
 	}
 	
 	public OrderHome clickOnNextStep2Button()
@@ -327,6 +369,17 @@ public class OrderHome extends PageBase {
 		return OrderHome.Instance;
 	}
 	
+	public OrderHome changeQty1() throws InterruptedException
+	{
+		pagelogger.debug("Saving order wizard step2...");
+
+		clickOnElement(changeqtylocator1);
+		
+		Thread.sleep(1000);
+		
+		return OrderHome.Instance;
+	}
+	
 	public OrderHome increaseQty(String fieldValue)
 	{
 		pagelogger.debug("Setting order Name to: "  + fieldValue);
@@ -334,6 +387,17 @@ public class OrderHome extends PageBase {
 		findElement(increaseqtylocator).clear();
 		
 		findElement(increaseqtylocator).sendKeys(fieldValue);
+		
+		return OrderHome.Instance;
+	}
+	
+	public OrderHome decreaseQty(String fieldValue)
+	{
+		pagelogger.debug("Setting order Name to: "  + fieldValue);
+
+		findElement(decreseqtylocator).clear();
+		
+		findElement(decreseqtylocator).sendKeys(fieldValue);
 		
 		return OrderHome.Instance;
 	}

@@ -19,7 +19,7 @@ public class PageBase
 
 	protected String URL;
 	protected static WebDriver driver = DriverProvider.Driver.get();
-	protected static final int DEFAULT_TIMEOUT = 30;
+	protected static final int DEFAULT_TIMEOUT = 90;
 	public final CustomLogger pagelogger;
 
 	private static PageBase instance;

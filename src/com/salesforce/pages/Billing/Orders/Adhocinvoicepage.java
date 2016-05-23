@@ -20,7 +20,7 @@ public class Adhocinvoicepage extends PageBase{
 	
 	By generateinvoicelocator = By.xpath("//input[@value='Generate Invoice']");
 	
-	By invoiceorderlocator = By.xpath(".//*[@id='lookupa0K28000001CYma00N2800000AItLA']");
+	By invoiceorderlocator = By.xpath(".//*[@id='bodyCell']/div[1]/div[1]/div[1]/h1");
 	
 	public Adhocinvoicepage clickOnNewButton() {
 		pagelogger.debug("Clicking on the New button...");

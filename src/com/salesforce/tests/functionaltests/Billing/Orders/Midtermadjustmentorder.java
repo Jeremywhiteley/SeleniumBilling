@@ -2,22 +2,24 @@ package com.salesforce.tests.functionaltests.Billing.Orders;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
-
 import java.io.IOException;
 import java.text.ParseException;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.salesforce.tests.functionaltests.CloudBaseTest;
 
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class Midtermadjustmentorder extends CloudBaseTest {
 	
 	@Test
-	public void midTerm() throws BiffException, IOException, InterruptedException,
+	public void test_Midterm() throws BiffException, IOException, InterruptedException,
 	RowsExceededException, WriteException, ParseException {
 		
 				
@@ -46,7 +48,6 @@ public class Midtermadjustmentorder extends CloudBaseTest {
 		Order.clickOnMidTerm().addProductsToMidterm(addproduct).clickOnAdd().clickOnStartDate().clickOnMidtermSaveButton();
 		
 		assertThat("product has not been added in midterm adjustment.", Order.getHeaderText().toUpperCase(), containsString(name.toUpperCase()));
-
 
    }
 	

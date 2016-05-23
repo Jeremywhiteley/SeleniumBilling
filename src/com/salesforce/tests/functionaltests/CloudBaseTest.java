@@ -28,13 +28,16 @@ import com.salesforce.pages.DefaultTopFrame;
 import com.salesforce.pages.Login;
 import com.salesforce.pages.PageBase;
 import com.salesforce.pages.Billing.Accounts.CreatesAccount;
+import com.salesforce.pages.Billing.Accounts.accountlightningpage;
 import com.salesforce.pages.Billing.Invoices.Invoicescheduler;
 import com.salesforce.pages.Billing.Invoices.ProfarmaInvoice;
 import com.salesforce.pages.Billing.Orders.Addpaymentplanfororder;
 import com.salesforce.pages.Billing.Orders.Adhocinvoicepage;
 import com.salesforce.pages.Billing.Orders.Cloneorder;
+import com.salesforce.pages.Billing.Orders.Generateinvoicepage;
 import com.salesforce.pages.Billing.Orders.OrderHome;
 import com.salesforce.pages.Billing.Orders.Paymentplan;
+import com.salesforce.pages.Billing.Orders.Updateorderstatus;
 import com.salesforce.pages.Billing.Orders.orderpreviewinvoice;
 import com.salesforce.pages.salescloud.SalesCloudHomePage;
 import com.salesforce.pages.salescloud.SalesCloudTopFrame;
@@ -73,6 +76,7 @@ public class CloudBaseTest
 	protected WebDriver driver;
 	protected Login LoginPage;
 	protected OrderHome Order;
+	protected accountlightningpage lightning;
 	protected Paymentplan plan;
 	protected Adhocinvoicepage Adhoc;
 	protected orderpreviewinvoice previewinvoice;
@@ -81,6 +85,8 @@ public class CloudBaseTest
 	protected CreatesAccount account;
 	protected Invoicescheduler scheduler;
 	protected Addpaymentplanfororder pplan;
+	protected Updateorderstatus orderstatus;
+	protected Generateinvoicepage generateinv;
 	protected UserProfileHome userProfile;
 	protected DefaultTopFrame defaultTopFrame;
 	protected SetupProfileHome profileHome;
@@ -174,10 +180,13 @@ public class CloudBaseTest
 
 		this.LoginPage = (this.LoginPage != null) ? this.LoginPage : new Login();
 		this.account = (this.account!= null)? this.account : new CreatesAccount();
+		this.lightning = (this.lightning!= null)? this.lightning : new accountlightningpage();
 		this.Order = (this.Order!= null)? this.Order : new OrderHome();
+		this.generateinv = (this.generateinv!= null)? this.generateinv : new Generateinvoicepage();
 		this.Adhoc = (this.Adhoc!= null)? this.Adhoc : new Adhocinvoicepage();
 		this.previewinvoice = (this.previewinvoice!= null)? this.previewinvoice : new orderpreviewinvoice();
 		this.plan = (this.plan!= null)? this.plan : new Paymentplan();
+		this.orderstatus = (this.orderstatus!= null)? this.orderstatus : new Updateorderstatus();
 		this.pplan = (this.pplan!= null)? this.pplan : new Addpaymentplanfororder();
 		this.corder = (this.corder!= null)? this.corder : new Cloneorder();
 		this.invoice = (this.invoice!=null)?this.invoice : new ProfarmaInvoice();

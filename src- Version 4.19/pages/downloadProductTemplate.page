@@ -1,2 +1,0 @@
-<apex:page controller="ControllerForExportImportTemplate" language="en-US" contentType="text/csv#InvoiceITProductsTemplate.csv" > {!recStr}
-</apex:page>

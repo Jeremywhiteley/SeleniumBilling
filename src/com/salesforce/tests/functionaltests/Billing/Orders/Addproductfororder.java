@@ -1,23 +1,25 @@
 package com.salesforce.tests.functionaltests.Billing.Orders;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertThat;
+//import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.text.ParseException;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.salesforce.tests.functionaltests.CloudBaseTest;
 
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class Addproductfororder extends CloudBaseTest{
 	
 	@Test
-	public void addProduct() throws BiffException, IOException, InterruptedException,
+	public void edit_AddProduct() throws BiffException, IOException, InterruptedException,
 	RowsExceededException, WriteException, ParseException {
 		
 				

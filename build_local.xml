@@ -53,7 +53,7 @@
 	</target>
 
 	<target name="compile" depends="init,set_conditions,replace">
-		<javac source="1.8" srcdir="${src}" fork="false" destdir="${bin}" includeantruntime="false">
+		<javac source="1.8ll" srcdir="${src}" fork="true" destdir="${bin}" includeantruntime="false">
 			<classpath refid="dependency.classpath" />
 			<classpath>
 				<pathelement path="${bin}">

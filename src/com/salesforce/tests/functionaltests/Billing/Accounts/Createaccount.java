@@ -49,7 +49,7 @@ public class Createaccount extends CloudBaseTest  {
 		 * 
 		 * Assertions
 		 */
-		//assertThat("Account is not created",account.getHeaderText().toUpperCase(), containsString(name.toUpperCase()));
+		assertThat("Account is not created",account.getHeaderText().toUpperCase(), containsString(name.toUpperCase()));
 		
         //assertTrue("Account is not created", driver.getCurrentUrl().contains("001"));	
 		
