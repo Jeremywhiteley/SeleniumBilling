@@ -23,11 +23,7 @@ import com.salesforce.tests.functionaltests.Billing.Orders.createorderforprofarm
 
 @RunWith(Categories.class)
 //@IncludeCategory
-@SuiteClasses({Createaccount.class, Createorderforonetimecharge.class, Addproductfororder.class, Cloneorder.class,
-	Previewinvoiceoforder.class, Midtermadjustmentorder.class,Upgradesorder.class, Downgradesorder.class,
-	Createpaymentplan.class,Paymentplanfororder.class, Testgenerateinvoice.class, 
-	Testupdateorderstatus.class , createorderforonetimeandmonthly.class, Createadhocinvoice.class, 
-	createorderforprofarmainvoice.class, createlightningaccount.class})
+@SuiteClasses({Createaccount.class, Createorderforonetimecharge.class, Addproductfororder.class})
 public class CategorySuite {
 }
 
