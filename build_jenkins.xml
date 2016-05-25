@@ -15,6 +15,10 @@
 	</tstamp>
 	<property name="testresultsfolder" value="${archive}/${build_time}" />
 
+<project name="Sample usage of Salesforce Ant tasks" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <property file="build.properties"/>
+    <property environment="env"/>	
 
 	<path id="test.classpath">
 		<pathelement location="${bin}" />
@@ -217,6 +221,9 @@
 			<fileset dir="${report}" />
 		</copy>
 		<fail message="Test failure detected, check test results." if="test.failed" />
-
 	</target>
+	
+	<target name="deploy">
+      		<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="Retrieve" rollbackOnError="true" />
+    	</target>
 </project>
