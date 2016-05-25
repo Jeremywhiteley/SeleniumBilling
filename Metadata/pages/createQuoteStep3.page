@@ -1,0 +1,275 @@
+<apex:page standardController="Quote__c" extensions="CreateQuoteController" tabStyle="Quote__c">
+      <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-1.5.1.min.js')}"  />
+      <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-ui-1.8.14.custom.min.js')}"/>
+      <apex:stylesheet value="{!URLFOR($Resource.jQuery, '/css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+      <script>
+          function confirmCancel() {
+              if (confirm("{!JSENCODE($Label.CancellingthiswoulddiscardthechangesPleaseconfirm)}")) 
+              {
+                  return true;
+              }
+              return false;
+          } 
+          $j = jQuery.noConflict();
+          $j(document).ready(function() {
+              $j("#dialog").dialog({  autoOpen: false, modal: true, position: 'center', width: 190, 
+                                     height:70, dialogClass: "ui-dialog-no-titlebar ui-dialog-no-padding", resizable: true});
+          });
+          
+          /*Added by dhanalakshmi for INVOICEIT-430*/
+          function disableDiscountValueOrPercentage(inputID){
+          var sId = '.'+ inputID;
+          var selectedType = $j(sId+' :selected' ).text();
+          var sdPercentageID = '.'+ inputID+'dPercentageID';
+          var sdValueID = '.'+ inputID+'dValueID';
+          var sdOutputValueID = '.'+ inputID +'dOutputValueID';
+          var sdOutputPercentageId = '.'+inputID+'dOutputPercentageID';
+          if(selectedType == '%' || selectedType == 'By Percentage') {
+              var isDisabledPercentege = $j(sdPercentageID).is(':disabled');
+               if(isDisabledPercentege){
+                  $j(sdPercentageID).removeAttr("disabled");
+               }
+              $j(sdValueID).css({display: "block"});
+              $j(sdValueID).attr("disabled", "disabled"); 
+              $j(sdOutputPercentageId).hide();
+              $j(sdOutputValueID).hide();
+              $j(sdPercentageID).css({display: "block"});
+          }else if(selectedType == 'Value' || selectedType == 'By Value'){
+               var isDisabled = $j(sdValueID).is(':disabled');
+               if(isDisabled){
+                  $j(sdValueID).removeAttr("disabled");
+               }
+               $j(sdPercentageID).css({display: "block"});
+               $j(sdPercentageID).attr("disabled", "disabled"); 
+               $j(sdOutputValueID).hide();
+               $j(sdOutputPercentageId).hide();
+               $j(sdValueID).css({display: "block"});
+          }else{
+             $j(sdPercentageID).css({display: "none"});
+             $j(sdValueID).css({display: "none"});
+             $j(sdOutputValueID).css({display: "none"});
+             $j(sdOutputPercentageId).css({display: "none"});
+          }
+      }
+      
+          /*Function to show the modal dialog for jquery*/
+          function showDialog(){
+              $j("#dialog").dialog("open");
+              $j('#dialog').dialog('option', 'position', 'center');
+              return false;
+          }
+          /*Function to hide the modal dialog for jquery*/
+          function closeDialog(){
+              $j("#dialog").dialog("close");
+              return false;
+          }
+           function disableBtn() {
+              isSaving = true;
+              $j('.disablebutton').addClass('btnDisabled');
+              $j('.disablebutton').attr({value:'Saving...',disabled:'disabled'});
+              $j('.disablebuttonSave').addClass('btnDisabled');
+              $j('.disablebuttonSave').attr('value','Saving...');
+              
+          }
+      </script>
+  <apex:sectionHeader title="{!$Label.Step3of3}" subtitle="{!quote.Name}" />
+      <apex:form >
+      <apex:actionStatus id="status" onstart="return showDialog()" onstop="return closeDialog()"/>
+      <apex:pageMessages id="pageMessages"/>
+          <apex:pageBlock id="pb">
+              <apex:pageBlockButtons >
+                  <apex:commandButton value="{!$Label.ButtonPrevious}" action="{!step2}" styleClass="disablebutton"/>
+                  <!--
+                       Modified By        : Mallela Naveen  :7-04-2014  :INVOICEIT-320
+                       Comments           : added style classes to below buttons to disableof onclick.
+                  -->
+                  <!--
+                       Modified By       : Asish Kumar Behera  :28-02-2014  :INVOICEIT-320
+                       Comments          : previously when user clicks twice on the button it creates two invoices, 
+                                                  disable the button when user click on button
+                  -->
+                  <apex:actionStatus id="saveStatus">
+          
+                      <apex:facet name="stop">
+                         <apex:commandButton value="{!$Label.ButtonSave}" action="{!saveQuote}" reRender="pageMessages,pb" onclick="disableBtn();" styleClass="disablebutton" status="saveStatus"/>
+                      </apex:facet>
+                      <apex:facet name="start">
+                          <apex:commandButton value="Saving..." disabled="true" status="saveStatus"/>
+                      </apex:facet>
+                              
+                  </apex:actionStatus>  
+                  <apex:commandButton value="{!$Label.Quick_Save_Button}" action="{!quickSaveQuote}" rerender="quoteRatePlanCharges,summaryOfCharges,subTotal,vat,total,pageMessages" status="status" styleClass="disablebutton"/>
+                  <apex:commandButton value="{!$Label.ButtonUpdate}" action="{!chargeCalculator}" rerender="quoteRatePlanCharges,summaryOfCharges,subTotal,vat,total,pageMessages" status="status" styleClass="disablebutton"/>
+                  <apex:commandButton value="{!$Label.ButtonCancel}" action="{!cancel}" onclick="return confirmCancel()" immediate="true" styleClass="disablebutton"/>
+              </apex:pageBlockButtons>
+              <apex:pageBlockSection title="{!$Label.QuoteStep3_PB_ConfirmQuote}" id="quoteRatePlanCharges" columns="1" collapsible="false">
+                  <apex:outputPanel id="test">
+                      <table cellspacing="0" cellpadding="0" border="0" class="list" style="width:100%;">
+                          <thead class="rich-table-thead" >
+                          <tr class="headerRow">
+                              <apex:repeat value="{!$ObjectType.Quote_Product__c.FieldSets.ProductFieldsInStep3}" var="fieldAPI">
+                                  <th colspan="1" scope="col" class="headerRow">
+                                      <div>
+                                {!HTMLENCODE(fieldAPI.Label)}
+                                      </div>
+                                  </th> 
+                              </apex:repeat>
+                              <th colspan="1" scope="col" class="headerRow">
+                                <div>
+                                {!HTMLENCODE($Label.Quantity)}
+                                </div>
+                              </th>
+                              <apex:variable value="{!3}" var="rowNum"/>
+                              <apex:repeat value="{!$ObjectType.Quote_Rate_Plan_Charge__c.FieldSets.Quote_wizard_Step_3}" var="fieldAPI">
+                                      <th colspan="1" scope="col" class="headerRow">
+                                          <div>
+                                             <apex:OutputLabel value="{!fieldAPI.Label}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name != $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name != $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name != $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Type__c.Name}"/>
+                                             <apex:outputlabel value="{!fieldAPI.Label}" rendered="{!(displayDiscountRowinPage3 && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name) || (displayDiscountRowinPage3 && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name) || (displayDiscountRowinPage3 && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Type__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH')}"/>
+                                          </div>
+                                      </th>
+                                      <apex:variable var="rowNum" value="{!rowNum + 1}"/> 
+                              </apex:repeat>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <apex:repeat value="{!quoteClass.quoteProducts}" var="quoteproduct">
+                              <apex:repeat value="{!quoteproduct.quoteRatePlans}" var="quoterateplan">
+                                  <apex:repeat value="{!quoterateplan.quoteRatePlanCharges}" var="quoterateplancharge">
+                                      <tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);}" onmouseover="if (window.hiOn){hiOn(this);}" class="dataRow even odd first">
+                                          <apex:repeat value="{!$ObjectType.Quote_Product__c.FieldSets.ProductFieldsInStep3}" var="fieldAPI">
+                                              <td colspan="1" class="dataCell">
+                                                  <apex:outputField value="{!quoteproduct.quoteproduct[fieldAPI]}" rendered="{!quoterateplancharge.quoterateplancharge.Sequence_No__c <= 1}"/>
+                                              </td>
+                                          </apex:repeat>
+                                          <td colspan="1" class="dataCell">
+                                              <apex:inputField value="{!quoterateplancharge.quoterateplancharge.Quantity__c}" rendered="{!quoterateplancharge.isQuantityEditable == true}" required="true" style="width:90px">
+                                                  <apex:param value="{0,number,0}" />
+                                              </apex:inputField>
+                                              
+                                              <apex:outputField value="{!quoterateplancharge.quoterateplancharge.Quantity__c}" rendered="{!quoterateplancharge.isQuantityEditable != true}" style="width:90px">
+                                                  <apex:param value="{0,number,0}" />
+                                              </apex:outputField>
+                                          </td>
+                                          <apex:repeat value="{!$ObjectType.Quote_Rate_Plan_Charge__c.FieldSets.Quote_wizard_Step_3}" var="fieldAPI">
+                                              <td colspan="1" class="dataCell">
+                                                  <!-- INVOICEITCRM-41 -->
+                                                  <apex:outputField value="{!quoterateplancharge.quoterateplancharge[fieldAPI]}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name != $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name != $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name != $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Type__c.Name}"/>
+                                                  
+                                                  <!-- Added by dhanalakshmi for INVOICEIT-430-->  
+                                                  <apex:inputField styleClass="{!quoterateplancharge.quoterateplanchargeCounter}" onchange="disableDiscountValueOrPercentage({!quoterateplancharge.quoterateplanchargeCounter});" value="{!quoterateplancharge.quoterateplancharge[fieldAPI]}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Type__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH' && displayDiscountRowinPage3}"/>  
+                                                  
+                                                   <apex:outputPanel rendered="{!(($ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name && quote_LevelDiscount_By != 'APPLY_DISCOUNT_BY_PERCENTAGE' && displayDiscountRowinPage3) && quote_LevelDiscount_By != 'APPLY_DISCOUNT_BY_BOTH') || (quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH' && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name && (quoterateplancharge.quoterateplancharge.Discount_Type__c != '%' && quoterateplancharge.quoterateplancharge.Discount_Type__c != 'By Percentage') && displayDiscountRowinPage3)}">
+                                                      <label Class="{!quoterateplancharge.quoterateplanchargeCounter}dOutputPercentageID" id="dPercentageID" > {!quoterateplancharge.quoterateplancharge.Discount_Percent__c} </label>
+                                                  </apex:outputPanel> 
+                                                  <apex:inputField value="{!quoterateplancharge.quoterateplancharge.Discount_Percent__c}" styleClass="{!quoterateplancharge.quoterateplanchargeCounter}dPercentageID" rendered="{!($ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_PERCENTAGE' && displayDiscountRowinPage3) || (quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH' && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name)}" style="{!IF((quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH' && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name && (quoterateplancharge.quoterateplancharge.Discount_Type__c == '%' || quoterateplancharge.quoterateplancharge.Discount_Type__c == 'By Percentage') && displayDiscountRowinPage3) || ($ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Percent__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_PERCENTAGE' && displayDiscountRowinPage3), '','display:none')}"/> 
+                                                  <apex:outputpanel rendered="{!(($ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name && quote_LevelDiscount_By != 'APPLY_DISCOUNT_BY_VALUE' && displayDiscountRowinPage3) && quote_LevelDiscount_By != 'APPLY_DISCOUNT_BY_BOTH') || (quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH' && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name && (quoterateplancharge.quoterateplancharge.Discount_Type__c != 'Value' && quoterateplancharge.quoterateplancharge.Discount_Type__c != 'By Value') && displayDiscountRowinPage3)}">
+                                                       <label Class="{!quoterateplancharge.quoterateplanchargeCounter}dOutputValueID" id="dValueID" >{!quoterateplancharge.quoterateplancharge.Discount_Value__c}</label> 
+                                                  </apex:outputpanel>
+                                                  <apex:inputField value="{!quoterateplancharge.quoterateplancharge.Discount_Value__c}" styleClass="{!quoterateplancharge.quoterateplanchargeCounter}dValueID" rendered="{!($ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_VALUE' && displayDiscountRowinPage3) || (quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH' && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name)}" style="{!IF((quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_BOTH' && $ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name && (quoterateplancharge.quoterateplancharge.Discount_Type__c == 'Value' || quoterateplancharge.quoterateplancharge.Discount_Type__c == 'By Value') && displayDiscountRowinPage3) || ($ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Discount_Value__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_VALUE' && displayDiscountRowinPage3), '','display:none')}"/>
+                                              </td>
+                                          </apex:repeat>
+                                      </tr> 
+                                  </apex:repeat> 
+                              </apex:repeat>
+                          </apex:repeat>
+                    
+                      <tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);}" onmouseover="if (window.hiOn){hiOn(this);}" class="dataRow odd even">
+                          <apex:repeat value="{!$ObjectType.Quote_Product__c.FieldSets.ProductFieldsInStep3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell"/>
+                          </apex:repeat>
+                          
+                              <td colspan="1" class="dataCell">
+                                  <apex:inputField value="{!quoteClass.quote[discountCode]}" rendered="{!discountCode != null && isDisableDiscount && displayDiscountRowinPage3 && quote_LevelDiscount_By != null}"  style="width:90px"/>
+                                  <apex:commandButton value="{!$Label.ButtonApplyDiscountCode}" action="{!applyDiscountCode}" status="status" rerender="quoteRatePlanCharges,summaryOfCharges,subTotal,vat,total,pageMessages" rendered="{!discountCode != null && isDisableDiscount && displayDiscountRowinPage3 && quote_LevelDiscount_By != null}"/>
+                              </td> 
+                         
+                          <apex:repeat value="{!$ObjectType.Quote_Rate_Plan_Charge__c.FieldSets.Quote_wizard_Step_3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell">
+                                  <apex:outputText value="{!$Label.TotalDiscountValue}({!sCurrencyName})" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Unit_Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_VALUE' && displayDiscountRowinPage3}"/>
+                                  <apex:inputField value="{!quoteClass.quote.Discount_Value__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_VALUE' && isDisableDiscount && displayDiscountRowinPage3}"/>
+                                  <apex:outputField value="{!quoteClass.quote.Discount_Value__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_VALUE' && !isDisableDiscount && displayDiscountRowinPage3}"/>
+                                  <apex:commandButton value="{!$Label.ButtonApplyDiscount}" action="{!applyDiscountValueToCharges}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_VALUE' && isDisableDiscount && displayDiscountRowinPage3}" rerender="quoteRatePlanCharges,summaryOfCharges,subTotal,vat,total,pageMessages" status="status"/>
+                                  
+                                  <apex:outputText value="{!$Label.DiscountPercent}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Unit_Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_PERCENTAGE' && displayDiscountRowinPage3}"/>
+                                  <apex:inputField value="{!quoteClass.quote.Discount_Percent__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_PERCENTAGE' && isDisableDiscount && displayDiscountRowinPage3}"/>
+                                  <apex:outputField value="{!quoteClass.quote.Discount_Percent__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_PERCENTAGE' && !isDisableDiscount && displayDiscountRowinPage3}"/>
+                                  <apex:commandButton value="{!$Label.ButtonApplyDiscount}" action="{!applyDiscountPercentToCharges}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && quote_LevelDiscount_By == 'APPLY_DISCOUNT_BY_PERCENTAGE' && isDisableDiscount && displayDiscountRowinPage3}" rerender="quoteRatePlanCharges,summaryOfCharges,subTotal,vat,total,pageMessages" status="status"/>
+                                 
+                              </td>
+                          </apex:repeat>
+                      </tr>
+                     
+                     
+                      <tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);}" onmouseover="if (window.hiOn){hiOn(this);}" class="dataRow odd even">
+                          <apex:repeat value="{!$ObjectType.Quote_Product__c.FieldSets.ProductFieldsInStep3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell"/>
+                          </apex:repeat>
+                          <td colspan="1" class="dataCell"/>
+                          <apex:repeat value="{!$ObjectType.Quote_Rate_Plan_Charge__c.FieldSets.Quote_wizard_Step_3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell">
+                                  <apex:outputText value="{!$Label.SubTotal}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Unit_Price__c.Name}"/>
+                                  <apex:outputText value="{!sCurrencyName}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name}"/>
+                                  <apex:outputField value="{!quoteClass.quote.Sub_Total__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name}"/>
+                              </td>
+                          </apex:repeat>
+                      </tr>
+                           
+                          <tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);}" onmouseover="if (window.hiOn){hiOn(this);}" class="dataRow odd even">
+                              <apex:repeat value="{!$ObjectType.Quote_Product__c.FieldSets.ProductFieldsInStep3}" var="fieldAPI">
+                                  <td colspan="1" class="dataCell"/>
+                              </apex:repeat>
+                              <td colspan="1" class="dataCell"/>
+                              <apex:repeat value="{!$ObjectType.Quote_Rate_Plan_Charge__c.FieldSets.Quote_wizard_Step_3}" var="fieldAPI">
+                                  <td colspan="1" class="dataCell">
+                                      <apex:outputText value="{!$Label.Vat}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Unit_Price__c.Name && displayVATRowinPage3}"/>
+                                      <apex:outputText value="{!sCurrencyName}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && displayVATRowinPage3}"/>
+                                      <apex:outputField value="{!quoteClass.quote.VAT__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && displayVATRowinPage3}"/>
+                                  </td>
+                              </apex:repeat>
+                          </tr>
+                      
+                      <tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);}" onmouseover="if (window.hiOn){hiOn(this);}" class="dataRow odd even">
+                          <apex:repeat value="{!$ObjectType.Quote_Product__c.FieldSets.ProductFieldsInStep3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell"/>
+                          </apex:repeat>
+                          <td colspan="1" class="dataCell"/>
+                          <apex:repeat value="{!$ObjectType.Quote_Rate_Plan_Charge__c.FieldSets.Quote_wizard_Step_3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell">
+                                  <apex:outputText value="{!$Label.Tax}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Unit_Price__c.Name && displayTAXRowinPage3}"/>
+                                  <apex:outputText value="{!sCurrencyName}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && displayTAXRowinPage3}"/>
+                                  <apex:outputField value="{!quoteClass.quote.Tax__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name && displayTAXRowinPage3}"/>
+                              </td>
+                          </apex:repeat>
+                      </tr>
+                     
+                      <tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);}" onmouseover="if (window.hiOn){hiOn(this);}" class="dataRow even odd last">
+                          <apex:repeat value="{!$ObjectType.Quote_Product__c.FieldSets.ProductFieldsInStep3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell"/>
+                          </apex:repeat>
+                          <td colspan="1" class="dataCell"/>
+                          <apex:repeat value="{!$ObjectType.Quote_Rate_Plan_Charge__c.FieldSets.Quote_wizard_Step_3}" var="fieldAPI">
+                              <td colspan="1" class="dataCell">
+                                  <apex:outputText value="{!$Label.TotalAmount}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Unit_Price__c.Name}"/>
+                                  <apex:outputText value="{!sCurrencyName}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name}" />
+                                  <apex:outputField value="{!quoteClass.quote.Total__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Price__c.Name}" />   
+                                  <apex:outputText value="{!sCurrencyName}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Cost__c.Name}"/>                       
+                                  <apex:outputField value="{!quoteClass.quote.Total_Cost__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Cost__c.Name}"/>
+                                  <apex:outputText value="{!sCurrencyName}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Profit__c.Name}"/>
+                                  <apex:outputField value="{!quoteClass.quote.Total_Profit__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Profit__c.Name}"/>
+                                  <apex:outputText value=" (" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Profit__c.Name}"/>
+                                  <apex:outputField value="{!quoteClass.quote.TotalProfitPercent__c}" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Profit__c.Name}"/>
+                                  <apex:outputText value=")" rendered="{!$ObjectType.Quote_Rate_Plan_Charge__c.Fields[fieldAPI].Name == $ObjectType.Quote_Rate_Plan_Charge__c.fields.Profit__c.Name}"/>
+                              </td>
+                          </apex:repeat>
+                      </tr>
+                      </tbody>
+                  </table>
+                  </apex:outputPanel>
+              </apex:pageBlockSection>
+          </apex:pageBlock>
+          <!-- This div holds the image that is opened as a popup during processing -->
+          <div id="dialog">
+              <apex:image value="{!URLFOR($Resource.jQuery,'/css/smoothness/images/please_wait.gif')}"/>
+          </div>
+      </apex:form>
+  </apex:page>

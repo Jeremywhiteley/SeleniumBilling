@@ -1,0 +1,104 @@
+<apex:page standardController="Job__c" extensions="ControllerGenerateProformaInvoice"> 
+       <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-1.5.1.min.js')}"  />
+        <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-ui-1.8.14.custom.min.js')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.jQuery, '/css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+        <style type="text/css">
+        .obj_title {
+        font-weight: bold;
+        color: #0096C1;
+        font-size: 12px;
+        table { border:1px; }
+        td { border:1px solid #0f0; }
+        }
+        </style>
+        
+        <script>
+            var isSaving;
+            isSaving = false ;
+            $j = jQuery.noConflict();
+             function disableBtn() {
+                isSaving = true;
+                $j('.disablebutton').addClass('btnDisabled');
+                $j('.disablebutton').attr({value:'Creating Invoice...',disabled:'disabled'});
+                $j('.disablebuttonSave').addClass('btnDisabled');
+                $j('.disablebuttonSave').attr('value','Creating Invoice...');
+                
+            }
+        </script>
+        <apex:form >
+         <div class="bPageTitle">
+            <apex:sectionHeader title="Order" subtitle="Proforma Invoice"/>
+            <div class="ptBreadcrumb">&nbsp;«&nbsp;
+                <a href="/{!HTMLENCODE(order.Id)}">Back to : {!HTMLENCODE(order.Name)}</a>
+            </div>
+        </div>
+        <apex:pageMessages id="message"></apex:pageMessages>
+        <apex:pageBlock title="{!$Label.Proforma_Invoice}" id="pb" rendered="{!IF(AND(order.Is_Billing_Master_Order__c != true,isDisplay == true), true, false)}"  >
+            <apex:pageBlockButtons >
+                <!--
+                    Modified By         : Asish Kumar Behera  :28-02-2014  :INVOICEIT-320
+                    Comments         : previously when user clicks twice on the button it creates two invoices, 
+                                                    disable the button when user click on button
+               -->
+                <apex:actionStatus id="saveStatus">
+                    <apex:facet name="stop">
+                         <!--
+                        Modified By         : Rama Krishna.v  :4-4-2014   :INVOICEIT-320
+                        Comments         : added style classes to below buttons to disableof onclick.
+                       -->
+                        <apex:commandButton value="{!$Label.Create_ProformaINV}" action="{!createProformaInvoice}" onclick="disableBtn();"  styleClass="disablebutton" reRender="message,pb" status="saveStatus"/>
+                    </apex:facet>
+                    <apex:facet name="start">
+                        <apex:commandButton value="Creating Invoice..." disabled="true" status="saveStatus"/>
+                    </apex:facet>                  
+                </apex:actionStatus>
+                
+                <apex:commandButton value="{!$Label.ButtonCancel}" action="{!Cancel}" styleClass="disablebutton"/>
+            </apex:pageBlockButtons>       
+         
+            <apex:pageBlockSection columns="1" collapsible="false" title="Order Line Items">   
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Proforma Invoice Reference" />
+                    <apex:inputText value="{!sInvoiceRefNo}"/>
+                </apex:pageBlockSectionItem>       
+            </apex:pageBlockSection> 
+            
+            <table cellspacing="0" cellpadding="0" border="0" class="list">
+             <thead class="rich-table-thead">
+                <tr class="headerRow">
+                <th colspan="1" scope="col" class="headerRow">
+                      <div>
+                      Select
+                      </div>
+                    </th>                        
+                   <apex:repeat value="{!$ObjectType.Job_Rate_Plan_Charge__c.FieldSets.Proforma_Invoice}" var="fieldAPI">
+                        <th colspan="1" scope="col" class="headerRow">
+                            <div>
+                                {!HTMLENCODE(fieldAPI.Label)}
+                            </div>
+                        </th> 
+                    </apex:repeat> 
+                </tr>
+            </thead>
+        <tbody>
+     <apex:repeat value="{!listOfOrderRPChargeWrapper}" var="orderRPChargeWrapper">       
+      <tr>
+      <td colspan="1" class="dataCell">
+        <apex:inputCheckbox value="{!orderRPChargeWrapper.isChecked}" />
+       </td> 
+      <apex:repeat value="{!$ObjectType.Job_Rate_Plan_Charge__c.FieldSets.Proforma_Invoice}" var="fieldAPI"> 
+            
+               <td colspan="1" class="dataCell">
+                <apex:outputField value="{!orderRPChargeWrapper.orderRPCharge[fieldAPI]}"  />
+               </td>    
+            
+        </apex:repeat> 
+        </tr>
+        </apex:repeat> 
+        </tbody>        
+    </table>
+             
+        </apex:pageBlock>
+      
+        </apex:form>
+    </apex:page>

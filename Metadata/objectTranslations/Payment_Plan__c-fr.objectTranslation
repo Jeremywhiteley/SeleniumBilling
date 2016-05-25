@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Payment Plan --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Payment Plan --></value>
+    </caseValues>
+    <fields>
+        <label><!-- Down Payment (Amount) --></label>
+        <name>Down_Payment_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Down Payment (%) --></label>
+        <name>Down_Payment__c</name>
+    </fields>
+    <fields>
+        <label><!-- Installment Start Date --></label>
+        <name>Installment_Start_Date__c</name>
+    </fields>
+    <fields>
+        <help><!-- At order level, you can adjust no of installments according to your need when this field is set as true otherwise you need to stick with this plan without any change --></help>
+        <label><!-- Is Plan Editable --></label>
+        <name>Is_Plan_Editable__c</name>
+    </fields>
+    <fields>
+        <label><!-- Maximum Installments --></label>
+        <name>Maximum_Installments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Minimum Installments --></label>
+        <name>Minimum_Installments__c</name>
+    </fields>
+    <fields>
+        <label><!-- No of Installments --></label>
+        <name>No_of_Installments__c</name>
+    </fields>
+    <fields>
+        <label><!-- Type of Installments --></label>
+        <name>Type_of_Installments__c</name>
+        <picklistValues>
+            <masterLabel>Manual</masterLabel>
+            <translation><!-- Manual --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Monthly</masterLabel>
+            <translation><!-- Monthly --></translation>
+        </picklistValues>
+    </fields>
+    <gender><!-- Masculine --></gender>
+    <nameFieldLabel><!-- Payment Plan Name --></nameFieldLabel>
+    <startsWith><!-- Consonant --></startsWith>
+    <validationRules>
+        <errorMessage><!-- Maximum Installments should be greater than no of installments --></errorMessage>
+        <name>Check_Maximum_Installments</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Enter either amount or percentage --></errorMessage>
+        <name>Validate_Down_Payment_Amt_or_percentage</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Minimum Installments should be lesser than no of installments. --></errorMessage>
+        <name>check_Minimum_Installments</name>
+    </validationRules>
+</CustomObjectTranslation>

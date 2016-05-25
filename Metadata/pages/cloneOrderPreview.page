@@ -1,0 +1,240 @@
+<apex:page standardController="Job__c" extensions="ControllerSendOrder" sidebar="false" standardStylesheets="false" renderAs="pdf">
+        <apex:stylesheet value="{!URLFOR($Resource.InvoiceIt,'pdf/web/css/style.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.InvoiceIt,'pdf/web/css/codainvoiceprint.css')}"/>
+        <apex:variable value="{!Job__c.Shipping_Contact__r}" var="shippingContact" /> 
+             <table>
+                <tr>
+                    <td>
+                        <div><apex:image value="{!sLogo}"  width="180" height="60" /> 
+                        </div>
+                    </td>
+                    <td class="alignright title">{!HTMLENCODE($Label.Order)}
+                    </td>
+                </tr>
+            </table><br/>
+            <table>
+                <tr>
+                    <td class="zeropadding">{!HTMLENCODE($Organization.Name)}&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td class="zeropadding">{!HTMLENCODE($Organization.Street)}&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td class="zeropadding">{!HTMLENCODE($Organization.City)}&nbsp;{!HTMLENCODE($Organization.State)} 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="zeropadding">{!HTMLENCODE($Organization.Postalcode)}&nbsp;{!HTMLENCODE($Organization.Country)}                
+                    </td>
+                </tr>
+                <tr>
+                    <td class="zeropadding">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="zeropadding">&nbsp;</td>
+                </tr>
+            </table>
+            
+            <div class="hspacer"></div>
+                 <table>
+                    <tr>
+                        <td class="strong"><apex:outputText value="{!$Label.ShippingAddress}" rendered="false" /></td>
+                        <td class="strong"><apex:outputText value="{!$Label.ShippingAddress}" rendered="false" /></td>
+                        <td class="aligntop" rowspan="2" style="padding-right:0;width:42%">
+                            <span>
+                                <table>
+                                    <tr>
+                                        <td class="strong alignright bgcolor boxed boxedtop">
+                                            <nobr>{!HTMLENCODE($Label.OrderName)}</nobr>   
+                                        </td>
+                                        <td class="boxed boxedtop"><apex:outputText value="{!Job__c.Name}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright bgcolor boxed" height="10">
+                                            <nobr>{!HTMLENCODE($Label.OrderDate)}</nobr>
+                                        </td>
+                                        <td class="boxed"><apex:outputField value="{!Job__c.Start_Date__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright bgcolor boxed" height="10">
+                                            <nobr>{!HTMLENCODE($Label.OrderCurrency)}</nobr>
+                                        </td>
+                                        <td class="boxed"><apex:outputText value="{!Job__c.CurrencyL__r.Name}({!Job__c.CurrencyL__r.Currency_Symbol__c})" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="aligntop">  {!HTMLENCODE(shippingContact.Salutation)}{!HTMLENCODE(shippingContact.Name)}
+                            <br /><table class="nopadding" border="0" cellpadding="0" cellspacing="0"><colgroup span="1"></colgroup><tbody><tr class=""><td class="" colspan="1"></td></tr></tbody></table>
+                             <apex:outputLabel value="{!shippingContact.MailingStreet}" rendered="{!shippingContact.MailingStreet != null}"/><br></br>
+                             <apex:outputLabel value="{!shippingContact.MailingCity}" rendered="{!shippingContact.MailingCity != null}"/><br></br>
+                             <apex:outputLabel value="{!shippingContact.MailingState}" rendered="{!shippingContact.MailingState != null}"/><br></br>
+                             <apex:outputLabel value="{!shippingContact.MailingCountry}" rendered="{!shippingContact.MailingCountry != null}"/><br></br>
+                             <apex:outputLabel value="{!shippingContact.MailingPostalCode}" rendered="{!shippingContact.MailingPostalCode != null}"/>
+                        </td>
+                        <td class="aligntop">
+                        
+                        
+                        </td>
+                    </tr>
+                 </table>
+                 <div class="hspacer"></div>
+                 <div class="hspacer"></div>
+                 <table class="boxedtable" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <colgroup span="7"></colgroup>
+                    <thead class="rich-table-thead">
+                         <tr class="">
+                            <th class="" scope="col" colspan="1">
+                                <div>&nbsp;{!HTMLENCODE($Label.SlNo)}</div>
+                            </th>
+                            <th class="" scope="col" colspan="1"><div><div class="alignleft headerpadding">&nbsp;{!HTMLENCODE($Label.OrderName)}</div></div>
+                            </th>
+                            <apex:repeat value="{!$ObjectType.Job_Product__c.FieldSets.Order_Product_Email_Fields}" var="fieldAPIQP">
+                                <th class="" scope="col" colspan="1"><div><div class="alignleft headerpadding">&nbsp;{!HTMLENCODE(fieldAPIQP.Label)}</div></div>
+                                </th>
+                            </apex:repeat>
+                            <apex:repeat value="{!$ObjectType.Job_Rate_Plan_Charge__c.FieldSets.Order_Email_Fields}" var="fieldAPI">
+                              <th class="" scope="col" colspan="1"><div><div class="alignleft headerpadding">&nbsp;{!HTMLENCODE(fieldAPI.Label)}</div></div>
+                              </th>
+                            </apex:repeat>
+                            <th class="" scope="col" colspan="1"><div><div class="alignleft rightline headerpadding">&nbsp;{!HTMLENCODE($Label.NetValue)}</div></div>
+                            </th>
+                         </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <apex:variable value="{!1}" var="rowNum"/>
+                            <apex:repeat value="{!jobClass.jobProducts}" var="jobproduct">
+                                <apex:repeat value="{!jobproduct.jobRatePlans}" var="jobrateplan">
+                                    <apex:variable value="{!1}" var="chargesCounter"/>
+                                    <apex:repeat value="{!jobrateplan.jobRatePlanCharges}" var="jobrateplancharge">
+                                        <tr class="">
+                                            <td class="aligntop widthsupersmall aligncenter bottomline" colspan="1">
+                                              <span><apex:outputText value="{!FLOOR(rowNum)}" rendered="{!FLOOR(chargesCounter) == 1}" /></span>
+                                            </td>
+                                            <td class="aligntop bottomline" colspan="1">
+                                                <apex:outputPanel rendered="{!FLOOR(chargesCounter) == 1}">
+                                                    <apex:outputField value="{!jobproduct.jobproduct.Name}" /><br/>
+                                                        <span class="description">Product Code : {!HTMLENCODE(jobproduct.jobproduct.Product_Code__c)}</span>
+                                               </apex:outputPanel>
+                                            </td>
+                                            
+                                            <apex:repeat value="{!$ObjectType.Job_Product__c.FieldSets.Order_Product_Email_Fields}" var="fieldAPIQP">
+                                                <td class="alignright aligntop widthsmall bottomline" colspan="1">
+                                                    <apex:outputPanel rendered="{!FLOOR(chargesCounter) == 1}">
+                                                        <span>
+                                                            <apex:outputField value="{!jobproduct.jobproduct[fieldAPIQP]}" />   
+                                                        </span>
+                                                    </apex:outputPanel>
+                                                </td>
+                                            </apex:repeat>
+                                            
+                                            <apex:repeat value="{!$ObjectType.Job_Rate_Plan_Charge__c.FieldSets.Order_Email_Fields}" var="fieldAPI">
+                                                <td class="alignright aligntop widthsmall bottomline" colspan="1">
+                                                    <span>
+                                                        <apex:outputField value="{!jobrateplancharge.jobrateplancharge[fieldAPI]}" />   
+                                                    </span>
+                                                </td>
+                                            </apex:repeat>
+                                            <td class="alignright alignright aligntop widthmedium rightline bottomline" colspan="1">
+                                               <apex:outputField value="{!jobrateplancharge.jobrateplancharge.Price__c}" />
+                                            </td>
+                                        </tr>
+                                            <apex:variable var="chargesCounter" value="{!chargesCounter + 1}"/> 
+                                    </apex:repeat>
+                                    <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+                                </apex:repeat>
+                            </apex:repeat>
+                    </tbody>
+                 </table>
+                 <apex:outputPanel rendered="{!Job__c.Discount_Value__c > 0}">
+                    <table>
+                        <tr>
+                            <td class="aligntop generalnopadding">
+                                <table>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.NetTotal)}
+                                        </td>
+                                        <td class="widthmedium boxed boxedtopnone alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                            <apex:outputField value="{!Job__c.Sub_Total__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.Discount)}
+                                        </td>
+                                        <td class="widthmedium boxed boxedtopnone alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                            <apex:outputField value="{!Job__c.Discount_Value__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.Vat)}
+                                        </td>
+                                        <td class="widthmedium boxed alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                             <apex:outputField value="{!Job__c.VAT__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.Tax)}
+                                        </td>
+                                        <td class="widthmedium boxed alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                            <apex:outputField value="{!Job__c.Tax__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.OrderTotal)}
+                                        </td>
+                                        <td class="widthmedium boxed alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                            <apex:outputField value="{!Job__c.Total__c}" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                 </apex:outputPanel>
+                 <apex:outputPanel rendered="{!Job__c.Discount_Value__c <= 0}">
+                    <table>
+                        <tr>
+                            <td class="aligntop generalnopadding">
+                                <table>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.NetTotal)}
+                                        </td>
+                                        <td class="widthmedium boxed boxedtopnone alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                            <apex:outputField value="{!Job__c.Sub_Total__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.Vat)}
+                                        </td>
+                                        <td class="widthmedium boxed alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                             <apex:outputField value="{!Job__c.VAT__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.Tax)}
+                                        </td>
+                                        <td class="widthmedium boxed alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                            <apex:outputField value="{!Job__c.Tax__c}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="strong alignright">{!HTMLENCODE($Label.OrderTotal)}
+                                        </td>
+                                        <td class="widthmedium boxed alignright"><apex:outputText value="{!Job__c.CurrencyL__r.Currency_Symbol__c}" />&nbsp;
+                                            <apex:outputField value="{!Job__c.Total__c}" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                 </apex:outputPanel>
+    </apex:page>

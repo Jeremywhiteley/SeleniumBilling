@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Optional Extra --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Optional Extra --></value>
+    </caseValues>
+    <fields>
+        <label>Munteenheid</label>
+        <name>Currency__c</name>
+    </fields>
+    <fields>
+        <label>Invoice IT-product</label>
+        <name>Invoice_IT_Product__c</name>
+        <relationshipLabel>Optionele extra&apos;s</relationshipLabel>
+    </fields>
+    <fields>
+        <label>Productnaam</label>
+        <name>Product_Name__c</name>
+    </fields>
+    <fields>
+        <label>Debitering producttariefplan</label>
+        <name>Product_Rate_Plan_Charge__c</name>
+        <relationshipLabel>Optionele extra&apos;s</relationshipLabel>
+    </fields>
+    <fields>
+        <label>Producttariefplan</label>
+        <name>Product_Rate_Plan__c</name>
+        <relationshipLabel>Optionele extra&apos;s</relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Quantity --></label>
+        <name>Quantity__c</name>
+    </fields>
+    <fields>
+        <label>Offerte</label>
+        <name>Quote__c</name>
+        <relationshipLabel>Optionele extra&apos;s</relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Subtotal --></label>
+        <name>Subtotal__c</name>
+    </fields>
+    <fields>
+        <label><!-- Total Cost --></label>
+        <name>Total_Cost__c</name>
+    </fields>
+    <fields>
+        <label><!-- Unit Cost Price --></label>
+        <name>Unit_Cost_Price__c</name>
+    </fields>
+    <fields>
+        <label><!-- Unit Selling Price --></label>
+        <name>Unit_Selling_Price2__c</name>
+    </fields>
+    <fields>
+        <label>Verkoopprijs per eenheid</label>
+        <name>Unit_Selling_Price__c</name>
+    </fields>
+    <gender><!-- Neuter --></gender>
+    <nameFieldLabel><!-- Product Name --></nameFieldLabel>
+</CustomObjectTranslation>

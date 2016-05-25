@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Payment Plan Installment</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Payment Plan Installments</value>
+    </caseValues>
+    <fields>
+        <label><!-- Account --></label>
+        <name>Account__c</name>
+        <relationshipLabel><!-- Payment Plan Installments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Invoice --></label>
+        <name>Invoice__c</name>
+        <relationshipLabel><!-- Payment Plan Installments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Last Processing Date --></label>
+        <name>Last_Processing_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Mid-Term Adjustment --></label>
+        <name>Mid_Term_Adjustment__c</name>
+        <relationshipLabel><!-- Payment Plan Installments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- No of tries --></label>
+        <name>No_of_tries__c</name>
+    </fields>
+    <fields>
+        <label><!-- Order --></label>
+        <name>Order__c</name>
+        <relationshipLabel><!-- Payment Plan Installments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Payment Amount --></label>
+        <name>Payment_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payment Date --></label>
+        <name>Payment_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payment Method --></label>
+        <name>Payment_Method__c</name>
+        <relationshipLabel><!-- Payment Plan Installments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Payment Status --></label>
+        <name>Payment_Status__c</name>
+    </fields>
+    <fields>
+        <label><!-- Payment Type --></label>
+        <name>Payment_Type__c</name>
+        <picklistValues>
+            <masterLabel>ACH</masterLabel>
+            <translation><!-- ACH --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Credit Card</masterLabel>
+            <translation><!-- Credit Card --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Others (Cash, Check etc)</masterLabel>
+            <translation><!-- Others (Cash, Check etc) --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Payment --></label>
+        <name>Payment__c</name>
+        <relationshipLabel><!-- Payment Plan Installments --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Transaction --></label>
+        <name>Transaction__c</name>
+        <relationshipLabel><!-- Payment Plan Installments --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Account should be order &apos;s Account --></errorMessage>
+        <name>Restrict_Changing_AccountDiffFromOrdAcc</name>
+    </validationRules>
+</CustomObjectTranslation>

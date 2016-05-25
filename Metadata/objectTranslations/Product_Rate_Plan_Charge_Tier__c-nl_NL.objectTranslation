@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Product Rate Plan Charge Tier --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Product Rate Plan Charge Tier --></value>
+    </caseValues>
+    <fields>
+        <help>De begin- en eindeenheid worden allebei in de overweging opgenomen.</help>
+        <label>Einde Unit</label>
+        <name>End_Unit__c</name>
+    </fields>
+    <fields>
+        <label>Debitering producttariefplan</label>
+        <name>Product_Rate_Plan_Charge__c</name>
+        <relationshipLabel><!-- Product Rate Plan Charge Tiers --></relationshipLabel>
+    </fields>
+    <fields>
+        <help>De begin- en eindeenheid worden allebei in de overweging opgenomen.</help>
+        <label>Begineenheid</label>
+        <name>Start_Unit__c</name>
+    </fields>
+    <fields>
+        <label>Kostprijs per eenheid</label>
+        <name>Unit_Cost_Price__c</name>
+    </fields>
+    <fields>
+        <label>Prijs per eenheid</label>
+        <name>Unit_Price__c</name>
+    </fields>
+    <gender><!-- Neuter --></gender>
+    <nameFieldLabel><!-- Tier Number --></nameFieldLabel>
+    <validationRules>
+        <errorMessage>Er kan alleen een getrapte prijsstelling worden gecreëerd voor debiteringen in een producttariefplan met getrapte tarieven.</errorMessage>
+        <name>Cannot_create_for_non_tiered_charges</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Start and End unit should be greater than zero --></errorMessage>
+        <name>Start_and_end_unit_cannot_be_0</name>
+    </validationRules>
+</CustomObjectTranslation>

@@ -1,0 +1,28 @@
+<apex:page standardController="Account" extensions="ControllerForGenerateTokenForCyberSource" sidebar="false">
+       <apex:sectionHeader title="Customer Management" subtitle="Generate Token" />
+        <apex:form >
+            <apex:pageblock >
+            <apex:pageMessages />
+                <apex:pageblocksection collapsible="false" title="Please enter your card information to create token" columns="1" rendered="{!isRender}">
+                     <apex:inputField value="{!paymentMethod.Billing_First_Name__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Last_Name__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Address__c }" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_City__c}" required="true"/> 
+                     <apex:inputField value="{!paymentMethod.Billing_State_Province__c}" required="true"/> 
+                     <apex:inputField value="{!paymentMethod.Billing_Zip_Postal__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Country__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Email__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Name_on_Card__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Card_Type__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Card_Number__c}" required="true"/>  
+                   <apex:inputField value="{!paymentMethod.Card_Expiration_Month__c}" required="true"/> 
+                   <apex:inputField value="{!paymentMethod.Card_Expiration_Year__c}" required="true"/> 
+                </apex:pageblocksection>
+                <apex:pageblockbuttons location="Bottom">
+                    <apex:commandbutton value="Generate Token" action="{!generateToken}" rendered="{!isRender}"/>
+                    <apex:commandbutton value="Cancel" action="{!Cancel}" />
+                </apex:pageblockbuttons>
+            </apex:pageblock>
+        </apex:form>
+
+    </apex:page>

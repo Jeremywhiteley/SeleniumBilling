@@ -1,0 +1,34 @@
+<apex:page standardController="Job__c" extensions="ControllerCreateAdhocInvoice" tabStyle="Invoice__c">
+        <script type="text/javascript" >
+            function invoicePreview(){
+                window.open("/apex/generateInvoicePreview?id={!JSENCODE(Job__c.Id)}","dialogWidth:900px; dialogHeight:200px; center:yes");  
+            }
+        </script>
+        <apex:form >
+            <apex:sectionHeader title="Generate Invoice Preview" subtitle="Generate Invoice Preview"/>
+                <apex:pageMessages id="messages"/>
+                <apex:pageBlock title="Choose Invoice Date and Target Date." id="pb">
+                    <apex:pageBlockSection columns="1">
+                        <apex:outputField value="{!order.Name}" />
+                        <apex:inputField value="{!job.Service_Activation_Date__c}" label="Invoice Date" required="true"/>
+                        <apex:inputField value="{!job.Service_End_Date__c}"  label="Target Date" required="true"/> 
+                    </apex:pageBlockSection>
+                    <apex:pageBlockButtons location="bottom">
+                        <apex:actionStatus id="SaveButtonStatus">
+                            <apex:facet name="stop">
+                               <apex:outputPanel >
+                                    <apex:commandButton action="{!generateInvoicePreview}" value="Generate Invoice Preview" status="SaveButtonStatus" />
+                                    <apex:commandButton action="{!cancel}" value="{!$Label.ButtonCancel}"/>
+                               </apex:outputPanel>
+                            </apex:facet>
+                            <apex:facet name="start">
+                               <apex:outputPanel >
+                                    <apex:commandButton value="Processing..." disabled="true" />
+                                    <apex:commandButton value="Processing..." disabled="true" />
+                               </apex:outputPanel>
+                            </apex:facet>
+                        </apex:actionStatus>
+                    </apex:pageBlockButtons>
+                </apex:pageBlock>
+        </apex:form>
+    </apex:page>

@@ -1,0 +1,42 @@
+<apex:page standardController="Quote__c" extensions="CreateQuoteController">
+        <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-1.5.1.min.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-ui-1.8.14.custom.min.js')}" />
+        <apex:stylesheet value="{!URLFOR($Resource.jQuery,'css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+        <script>
+            var isSaving;
+            isSaving = false;
+            $j = jQuery.noConflict();
+           function disableBtn() {
+                isSaving = true;
+                $j('.disablebutton').addClass('btnDisabled');
+                $j('.disablebutton').attr({value:'Processing...',disabled:'disabled'});
+                $j('.disablebuttonSave').addClass('btnDisabled');
+                $j('.disablebuttonSave').attr('value','Processing...');
+                
+            }
+      </script>
+        <apex:pageMessages id="messages"/>
+        <apex:form id="form">
+            <apex:pageBlock title="{!$Label.ConfirmQuoteAndConvert}">
+                    {!HTMLENCODE($Label.startHere_Note)}: {!HTMLENCODE($Label.quoteConfirmationMessage)}
+            </apex:pageBlock>
+            <!--
+                Modified By        : Asish Kumar Behera28-02-2014INVOICEIT-320
+                Comments           : previously when user clicks twice on the button it creates two invoices, 
+                                     disable the button when user click on button
+           -->
+           <!--
+                Modified By        : Mallela Naveen7-04-2014 INVOICEIT-320
+                Comments           : added style classes to below buttons to disableof onclick.
+            -->
+            <apex:actionStatus id="saveStatus">
+                <apex:facet name="stop">           
+                    <apex:commandButton action="{!convertQuote}" value="{!$Label.ButtonConfirm}" reRender="messages,form" onclick="disableBtn();"  styleClass="disablebutton" status="saveStatus"/>
+                </apex:facet>
+                <apex:facet name="start">
+                    <apex:commandButton value="Processing..." disabled="true" status="saveStatus"/>
+                </apex:facet>
+            </apex:actionStatus>
+            <apex:commandButton action="{!cancel}" value="{!$Label.ButtonCancel}" styleClass="disablebutton"/>         
+        </apex:form>
+    </apex:page>

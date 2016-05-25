@@ -1,0 +1,190 @@
+<apex:page title="Start Here" sidebar="true">
+        <script>
+        function toggleDiv(showHideDiv, switchTextDiv) {
+            var ele = document.getElementById(showHideDiv);
+            var text = document.getElementById(switchTextDiv);
+                if(ele.style.display == "block") {
+                    ele.style.display = "none";
+                    text.innerHTML = "<strong> {!JSINHTMLENCODE($Label.startHere_ReadMore)} »</strong>";
+                }
+                else {
+                    ele.style.display = "block";
+                    text.innerHTML = "<strong> {!JSINHTMLENCODE($Label.startHere_Close)} «</strong>";
+                }
+        }
+        </script>  
+               
+        <style type="text/css">
+            a.ReadMore {text-decoration:none; color:orange; font-weight:bold;}
+            a.GoThere {text-decoration:none; color:#56C6EB; font-weight:bold;}       
+            div.HeadingBorder {border-bottom:solid #56C6EB 0pt; color:#1797C0; font-size:14pt; font-weight:bold;}
+            div.HeadingSmall {border-bottom:solid #56C6EB 0pt; color:#1797C0; font-size:11pt; font-weight:bold;}
+            div.GettingStarted  h2 {
+                line-height:115%;
+                margin:10pt 0 0.0001pt;
+                page-break-after:avoid;
+            }
+            div.GettingStarted h4 {
+                color:#4F81BD;
+                line-height:115%;
+                margin:10pt 0 0.0001pt;
+                page-break-after:avoid;
+            }
+        </style>
+        <div style="background-color:#F7F8FA">    
+        <div style="width:1000px; margin-left:50px; margin-right:175px; margin-right:auto; background-color:white; padding-left:50px; padding-right:50px; padding-bottom:20px;border-right:solid thin #D8D8D8;border-left:solid thin #D8D8D8;">
+            <div style="border-bottom:solid #1797C0 3pt;padding:0 0 3pt 0;font-weight:bold;">
+                <span style="font-size: 18pt; color: #1797C0"><br />{!HTMLENCODE($Label.startHere_GettingStarted)}</span></div>
+                <p>
+                    {!HTMLENCODE($Label.startHere_RecommendSteps)}
+                    </p>
+                 <p>
+                     {!HTMLENCODE($Label.startHere_AdditionInformation)} <a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.weinvoiceit.com/support/', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);">{!HTMLENCODE($Label.startHere_supportdocumentationLink)} »</a>
+                     
+                    </p>           
+            <div class="HeadingBorder">{!HTMLENCODE($Label.startHere_AboutInvoiceIT)}</div>
+                <p>
+                    {!HTMLENCODE($Label.startHere_DeploymentWays)}</p>
+                     <div style="border-bottom:solid #1797C0 3pt;padding:0 0 3pt 0;font-weight:bold;">
+                      </div>  
+                       <br />      
+                       <div class="HeadingBorder">
+               {!HTMLENCODE($Label.startHere_WhatToDo)}
+            </div>
+            <p>
+               {!HTMLENCODE($Label.startHere_WhatToDoSubHeading)}
+            </p>
+            <p>
+                <div class="HeadingSmall">
+                    {!HTMLENCODE($Label.startHere_Step)} 1: {!HTMLENCODE($Label.startHere_Step1Heading)}                  
+                </div>
+                <p>
+                    {!HTMLENCODE($Label.startHere_Step1Description)} <a class="ReadMore" href="javascript:openIntegration('/packaging/installPackage.apexp?p0=04td0000000N0Cm', 'height=600,location=no,resizable=yes,toolbar=no,status=no,menubar=no,scrollbars=1', 1);">{!$Label.startHere_Here} »</a>
+                </p>           
+                <div class="HeadingSmall">
+                    {!HTMLENCODE($Label.startHere_Step)} 2: {!HTMLENCODE($Label.startHere_Step2Heading)}
+                </div>
+                <p>
+                    {!HTMLENCODE($Label.startHere_Step2Description)}<a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.weinvoiceit.com/support/1239/configuring-the-crm-extension/', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);"> {!HTMLENCODE($Label.startHere_Here)} »</a>
+                </p>
+            </p>
+            <div style="border-bottom:solid #1797C0 3pt;padding:0 0 3pt 0;font-weight:bold;">
+            </div>  
+            <br />
+            <div class="HeadingBorder">
+                  {!HTMLENCODE($Label.startHere_TabsHeading)}
+            </div>
+            <br/>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/account.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabAccount)} 
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_AccountDescription)}
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/contact.png')}" width="25" height="25" /> &nbsp;{!HTMLENCODE($Label.startHere_TabContact)} 
+            </div>
+            <p>
+               {!HTMLENCODE($Label.startHere_ContactDescription)}
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/opportunity.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabOpportunities)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_OpportunityDescription)}
+            </p>
+            <p>
+              <strong>{!HTMLENCODE($Label.startHere_NOTE)}:</strong>  {!HTMLENCODE($Label.startHere_OpportunityNote)}
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/product.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabInvoiceITProducts)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_ProductDescription)}
+                <a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.weinvoiceit.com/support/category/3-product-catalogue/', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);">{!HTMLENCODE($Label.startHere_Here)} »</a>
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/quote.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabQuote)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_QuoteDescription)} 
+                <a class="ReadMore" id="sectionC" href="javascript:toggleDiv('divC','sectionC');" ><strong> {!HTMLENCODE($Label.startHere_ReadMore)} »</strong></a>
+            </p>
+            <div id="divC" style="display:none;">
+                {!HTMLENCODE($Label.startHere_YouCan)}
+                <ul>
+                    <li>{!HTMLENCODE($Label.startHere_QuoteReadMorePoint1)}</li>
+                    <li>{!HTMLENCODE($Label.startHere_QuoteReadMorePoint2)}</li>
+                    <li>{!HTMLENCODE($Label.startHere_QuoteReadMorePoint3)}</li>
+                    <li>{!HTMLENCODE($Label.startHere_QuoteReadMorePoint4)}</li>
+                    <li>{!HTMLENCODE($Label.startHere_QuoteReadMorePoint5)}</li>
+                    <li>{!HTMLENCODE($Label.startHere_QuoteReadMorePoint6)}</li>
+                </ul>
+            </div>
+            <p>
+                {!HTMLENCODE($Label.starthere_YouCanMoreHelp)} <a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.weinvoiceit.com/support/category/5-quotes/', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);">{!HTMLENCODE($Label.startHere_Here)} »</a>
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/order.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabOrder)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_OrderDescription)}
+                <a class="ReadMore" id="sectionD" href="javascript:toggleDiv('divD','sectionD');" ><strong> {!HTMLENCODE($Label.startHere_ReadMore)} »</strong></a>
+            </p>
+            <div id="divD" style="display:none;">
+                {!HTMLENCODE($Label.startHere_YouCan)}
+                <ul>
+                    <li>{!HTMLENCODE($Label.startHere_OrderReadMorePoint1)}</li>
+                    <li>{!HTMLENCODE($Label.startHere_OrderReadMorePoint2)}</li>
+                </ul>
+            </div>
+            <p>
+                {!HTMLENCODE($Label.starthere_YouCanMoreHelp)} <a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.weinvoiceit.com/support/category/6-orders/', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);">{!HTMLENCODE($Label.startHere_Here)} »</a>
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/invoice.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabInvoice)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_InvoiceDescription)}
+            </p>
+            <p>
+                {!HTMLENCODE($Label.starthere_YouCanMoreHelp)} <a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.weinvoiceit.com/support/category/7-invoices/', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);">{!HTMLENCODE($Label.startHere_Here)} »</a>
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/payment.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabPayment)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_PaymentDescription)}
+            </p>
+            <p>
+                {!HTMLENCODE($Label.starthere_YouCanMoreHelp)} <a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.weinvoiceit.com/support/category/8-payments/', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);">{!HTMLENCODE($Label.startHere_Here)} »</a>
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/scheduler.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabInvoiceRun)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_SchedulerDescription)}
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/currency.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabCurrencies)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_CurrencyDescription)}
+            </p>
+            <p>
+                {!HTMLENCODE($Label.startHere_TaxDescription)}
+            </p>
+            <div class="HeadingSmall">
+                <img src="{!URLFOR($Resource.InvoiceIt, 'images/dashboard.png')}" width="25" height="25" /> &nbsp; {!HTMLENCODE($Label.startHere_TabReportsDashboards)}
+            </div>
+            <p>
+                {!HTMLENCODE($Label.startHere_ReportDescription)}
+            </p>
+            <p>
+                {!HTMLENCODE($Label.starthere_YouCanMoreHelp)} <a class="ReadMore" href="javascript:openPopupFocusEscapePounds('http://www.salesforce.com/us/developer/docs/workbook_analytics/workbook_analytics.pdf', 'Help', 700, 600, 'width=700,height=600,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no,dependant=no', false, false);">{!HTMLENCODE($Label.startHere_Here)} »</a>
+            </p>
+            <div style="border-bottom:solid #1797C0 3pt;padding:0 0 3pt 0;font-weight:bold;">
+            </div>
+        </div>
+        </div>
+    </apex:page>

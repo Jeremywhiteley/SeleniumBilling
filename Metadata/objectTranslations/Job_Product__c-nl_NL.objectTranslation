@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Order Product --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Order Product --></value>
+    </caseValues>
+    <fields>
+        <label><!-- Bundle Sequence Number --></label>
+        <name>Bundle_SequenceNumber__c</name>
+    </fields>
+    <fields>
+        <label><!-- Charges without a Charge Date --></label>
+        <name>Charges_without_a_Charge_Date__c</name>
+    </fields>
+    <fields>
+        <label>Beschrijving</label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Order --></label>
+        <name>Job__c</name>
+        <relationshipLabel><!-- Order Products --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Minimum Next Charge Date For Product --></label>
+        <name>Minimum_Next_Charge_Date_For_Product2__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product Bundle --></label>
+        <name>Product_Bundle__c</name>
+        <relationshipLabel><!-- Order Products --></relationshipLabel>
+    </fields>
+    <fields>
+        <label>Productcode</label>
+        <name>Product_Code__c</name>
+    </fields>
+    <fields>
+        <label>Productfamilie</label>
+        <name>Product_Family__c</name>
+        <picklistValues>
+            <masterLabel>Default</masterLabel>
+            <translation>Standaard</translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Product --></label>
+        <name>Product__c</name>
+        <relationshipLabel><!-- Order Products --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Renewed From --></label>
+        <name>Renewed_From__c</name>
+        <relationshipLabel><!-- Order Products --></relationshipLabel>
+    </fields>
+    <fields>
+        <label>Reeksnummer besteld product</label>
+        <name>SequenceNumber__c</name>
+    </fields>
+    <fields>
+        <label>Totaal ordertariefplannen</label>
+        <name>Total_Job_Rate_Plans__c</name>
+    </fields>
+    <gender><!-- Neuter --></gender>
+    <layouts>
+        <layout>Job Product Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel><!-- Product Name --></nameFieldLabel>
+</CustomObjectTranslation>
