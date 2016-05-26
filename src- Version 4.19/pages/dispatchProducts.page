@@ -1,0 +1,130 @@
+<apex:page standardController="Job__c" extensions="CreateJobController" tabStyle="Job__c" action="{!initializeDispatch}">
+      <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-1.5.1.min.js')}" />
+      <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-ui-1.8.14.custom.min.js')}" />
+      <apex:stylesheet value="{!URLFOR($Resource.jQuery,'css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+    <script>
+          var isSaving;
+          isSaving = false;
+          $j = jQuery.noConflict();
+         function disableBtn() {
+              isSaving = true;
+              $j('.disablebutton').addClass('btnDisabled');
+              $j('.disablebutton').attr({value:'Dispatching...',disabled:'disabled'});
+              $j('.disablebuttonSave').addClass('btnDisabled');
+              $j('.disablebuttonSave').attr('value','Dispatching...');
+              
+          }
+    </script>
+      <div class="bPageTitle">
+          <apex:sectionHeader title="Dispatch Products for " subtitle="{!job.Name}" />
+          <div class="ptBreadcrumb">&nbsp;«&nbsp;
+              <a href="/{!job.Id}">{!HTMLENCODE($Label.dispatchProducts_Back)} Order : {!job.Name}</a>
+          </div>
+      </div>
+      
+      <apex:pageMessages id="pageMessages"/> 
+      <apex:form > 
+      <apex:pageBlock id="pb"> 
+      <apex:pageBlockButtons >   
+          <!--
+            Modified By : Asish Kumar Behera: 28-02-2014: INVOICEIT-320
+            Comments    : previously when user clicks twice on the button it creates two invoices, 
+                          disable the button when user click on button
+          -->
+          <apex:actionStatus id="saveStatus">
+              <apex:facet name="stop">
+                  <apex:commandButton value="{!$Label.ButtonDispatch}" action="{!createDispatchLineItems}" reRender="pageMessages,pb" status="saveStatus" onclick="disableBtn();"  styleClass="disablebutton"/>
+              </apex:facet>
+              <apex:facet name="start">
+                  <apex:commandButton value="Dispatching..." disabled="true" status="saveStatus"/>
+              </apex:facet>               
+          </apex:actionStatus>
+         
+         <apex:commandButton value="{!$Label.ButtonCancel}" action="{!cancel}" onclick="return confirmCancel()" immediate="true" styleClass="disablebutton"/>
+       </apex:pageBlockButtons>
+           
+       <apex:pageBlockSection title="Order Details">
+           <apex:outputField value="{!job.Name}"/>
+           <apex:outputField value="{!job.Status__c}"/>
+           <apex:outputField value="{!job.Service_Activation_Date__c}"/>
+           <apex:outputField value="{!job.Service_End_Date__c}"/>
+       </apex:pageBlockSection>
+       <apex:pageBlockSection title="Dispatch Details">
+           <apex:inputField value="{!dispatch.Name}"/>
+       </apex:pageBlockSection><br/>
+       
+       <apex:outputPanel rendered="{!!isDispatchSuccess}">
+       <table cellspacing="0" cellpadding="0" border="0" class="list" width="100%">
+          <thead class="rich-table-thead">
+          <tr class="headerRow">
+              <th colspan="1" scope="col" class="headerRow">
+                <div>
+                Select
+                </div>
+              </th>
+              <th colspan="1" scope="col" class="headerRow">
+                <div>
+                 {!HTMLENCODE($Label.ProductName)}
+                </div>
+              </th>
+              <th colspan="1" scope="col" class="headerRow">
+                <div>
+                {!HTMLENCODE($Label.ProductCode)}
+                </div>
+              </th>
+              <apex:repeat value="{!$ObjectType.Job_Rate_Plan_Charge__c.FieldSets.Dispatch_Products}" var="fieldAPI">
+                  <th colspan="1" scope="col" class="headerRow">
+                      <div>
+                          <apex:outputText value="{!fieldAPI.Label}" /> 
+                      </div>
+                  </th>
+              </apex:repeat>
+              <th colspan="1" scope="col" class="headerRow">
+                <div>
+                Available Stocks
+                </div>
+              </th>
+              <th colspan="1" scope="col" class="headerRow">
+                <div>
+                Quantity To Dispatch
+                </div>
+              </th>           
+          </tr>
+      </thead>
+      <tbody>
+          <apex:repeat value="{!jobClass.jobProducts}" var="jobproduct">
+              <apex:repeat value="{!jobproduct.jobRatePlans}" var="jobrateplan">
+                  <apex:repeat value="{!jobrateplan.jobRatePlanCharges}" var="jobrateplancharge">
+                      <tr onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);}" onmouseover="if (window.hiOn){hiOn(this);}" class="dataRow even odd first">
+                          <td colspan="1" class="dataCell">
+                              <apex:inputField value="{!jobrateplancharge.jobrateplancharge.Dispatch__c}" rendered="{!jobrateplancharge.jobrateplancharge.Remaining_Quantity__c > 0 && jobrateplancharge.jobrateplancharge.Price_Type__c == $Label.OptionOneTime}"/>
+                              <apex:outputField value="{!jobrateplancharge.jobrateplancharge.Dispatch__c}" rendered="{!jobrateplancharge.jobrateplancharge.Remaining_Quantity__c <= 0}"/>
+                          </td>
+                          <td colspan="1" class="dataCell">
+                              <apex:outputField value="{!jobproduct.jobProduct.Name}" rendered="{!jobrateplancharge.jobrateplancharge.Sequence_No__c <= 1}"/>
+                          </td>
+                          <td colspan="1" class="dataCell">
+                              <apex:outputField value="{!jobproduct.jobproduct.Product_Code__c}" rendered="{!jobrateplancharge.jobrateplancharge.Sequence_No__c <= 1}"/>
+                          </td>
+                          <apex:repeat value="{!$ObjectType.Job_Rate_Plan_Charge__c.FieldSets.Dispatch_Products}" var="fieldAPI"> 
+                              <td colspan="1" class="dataCell">
+                                  <apex:outputField value="{!jobrateplancharge.jobrateplancharge[fieldAPI]}" rendered="{!$ObjectType.Job_Rate_Plan_Charge__c.Fields[fieldAPI].Name != $ObjectType.Job_Rate_Plan_Charge__c.fields.Dispatch__c.Name}"/>                               
+                              </td>
+                          </apex:repeat>  
+                          <td colspan="1" class="dataCell">
+                              <apex:outputText value="{!map_ProductId_AvailableQuantity[jobproduct.jobProduct.Product__c]}" />                          
+                          </td>
+                          <td colspan="1" class="dataCell">
+                              <apex:inputField value="{!jobrateplancharge.jobrateplancharge.Quantity_to_Dispatch__c}" rendered="{!jobrateplancharge.jobrateplancharge.Remaining_Quantity__c > 0 && jobrateplancharge.jobrateplancharge.Price_Type__c == $Label.OptionOneTime}"/>
+                              <apex:outputText value="0" rendered="{!jobrateplancharge.jobrateplancharge.Remaining_Quantity__c <= 0}"/>
+                          </td>                
+                      </tr>
+                  </apex:repeat>
+              </apex:repeat>
+          </apex:repeat>
+      </tbody>
+      </table>
+      </apex:outputPanel>
+      </apex:pageBlock> 
+      </apex:form>
+  </apex:page>

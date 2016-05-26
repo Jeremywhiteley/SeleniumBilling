@@ -1,0 +1,96 @@
+<apex:page standardController="Job__c" extensions="ControllerHandlingForPaymentPlanAtOrder">
+   <apex:includeScript value="{!URLFOR($Resource.AJS, 'ajs/js/jquery.min.js')}" />
+     <apex:includeScript value="{!URLFOR($Resource.AJS, 'ajs/js/jshashtable.js')}" />
+     <apex:includeScript value="{!URLFOR($Resource.AJS, 'ajs/js/jquery.nf.js')}" />
+     <script>
+         function savePayment(){
+            var total = 0;
+            $(".totalAmount").each(function(){
+                  total += +$(this).val().replace(/[^\d\.\-\ ]/g, '');
+              });
+             
+              var paymentAmount = document.getElementById('{!$Component.formId.totalpAmount}').value; 
+              
+              if(paymentAmount < total ){
+                  alert('Sum of Payment Amount should not exceed Total Payment Amount');
+              }else{
+                  SaveValue();     
+              }
+           }
+     
+     </script>
+   <apex:form id="formId">
+   <apex:inputHidden value="{!orderObj.Total__c}" id="totalpAmount"/>
+   <apex:actionFunction action="{!save}" name="SaveValue" reRender="msid"/>
+   <div class="bPageTitle">
+          <apex:sectionHeader title="{!$Label.Order}" subtitle="{!$Label.Payment_Plan}"/>
+          <div class="ptBreadcrumb">&nbsp;«&nbsp;
+              <a href="/{!HTMLENCODE(orderObj.Id)}">Back to : {!HTMLENCODE(orderObj.Name)}</a>
+          </div>
+      </div>
+      <apex:pageMessages id="msid"></apex:pageMessages>
+      <apex:pageBlock title="{!$Label.Payment_Installment}" id="pb" rendered="{!isRender}">
+      
+      <apex:pageblockSection >
+        <apex:outputField value="{!orderObj.Name}"/>
+        <apex:outputField value="{!orderObj.Total__c}" />
+        <apex:inputField value="{!orderObj.Payment_Plan__c}" rendered="{!isAddedPID}" required="true"/>    
+        <apex:commandButton value="{!$Label.Show_Plan}" action="{!showPlanDetails}" reRender="pb,msid" rendered="{!isAddedPID}"/>
+        <center><apex:commandButton value="{!$Label.Modify_Plan}" action="{!modifyPlanDetails}" reRender="pb,msid,tableId" rendered="{!isPaymentPlan}"/></center>
+      </apex:pageblockSection><br/>
+      
+       <apex:pageBlockSection columns="2" title="{!$Label.Payment_Plan_Details}" rendered="{!isAddedPID}">
+          <apex:repeat value="{!$ObjectType.Payment_Plan__c.FieldSets.PaymentPlan}" var="fieldAPI">
+              <apex:outputField value="{!paymentPlan[fieldAPI]}" rendered="{!!paymentPlan.Is_Plan_Editable__c}"/>   
+              <apex:inputField value="{!paymentPlan[fieldAPI]}" rendered="{!paymentPlan.Is_Plan_Editable__c}"/>   
+          </apex:repeat> <br/>
+          <apex:commandButton value="{!$Label.Generate_Installments}" action="{!processpaymentPlan}" reRender="pb,msid" style="margin-right:100%;"/>  
+       </apex:pageBlockSection> <br/>
+       
+      <table cellspacing="0" cellpadding="0" border="0" class="list">
+           <thead class="rich-table-thead">
+              <tr class="headerRow">              
+                 <apex:repeat value="{!$ObjectType.Payment_Plan_Installment__c.FieldSets.Paymentinstallment_order}" var="fieldAPI">
+                      <th colspan="1" scope="col" class="headerRow">
+                          <div>
+                              {!HTMLENCODE(fieldAPI.Label)}
+                          </div>
+                      </th> 
+                  </apex:repeat> 
+                  <th colspan="1" scope="col" class="headerRow">
+                    <div>
+                    Action
+                    </div>
+                  </th> 
+              </tr>
+          </thead>
+     <tbody>
+     
+       <apex:repeat value="{!listOFInstallmentWrapper}" var="installmentWrapper" id="tableId">       
+          <tr>
+            <apex:repeat value="{!$ObjectType.Payment_Plan_Installment__c.FieldSets.Paymentinstallment_order}" var="fieldAPI"> 
+                     <td colspan="1" class="dataCell">
+                     <apex:inputField value="{!installmentWrapper.paymetnInstallment[fieldAPI]}" rendered="{!$ObjectType.Payment_Plan_Installment__c.Fields[fieldAPI].Name != $ObjectType.Payment_Plan_Installment__c.fields.Description__c.Name && installmentWrapper.paymetnInstallment.Payment_Status__c != 'Completed'}" styleClass="{!IF($ObjectType.Payment_Plan_Installment__c.Fields[fieldAPI].Name == $ObjectType.Payment_Plan_Installment__c.fields.Payment_Amount__c.Name, 'totalAmount','')}"/>
+                     <apex:outputField value="{!installmentWrapper.paymetnInstallment[fieldAPI]}" rendered="{!$ObjectType.Payment_Plan_Installment__c.Fields[fieldAPI].Name != $ObjectType.Payment_Plan_Installment__c.fields.Description__c.Name && installmentWrapper.paymetnInstallment.Payment_Status__c == 'Completed'}" styleClass="{!IF($ObjectType.Payment_Plan_Installment__c.Fields[fieldAPI].Name == $ObjectType.Payment_Plan_Installment__c.fields.Payment_Amount__c.Name, 'totalAmount','')}"/>
+                     <apex:outputField value="{!installmentWrapper.paymetnInstallment[fieldAPI]}" rendered="{! $ObjectType.Payment_Plan_Installment__c.Fields[fieldAPI].Name == $ObjectType.Payment_Plan_Installment__c.fields.Description__c.Name}" />
+                     </td>    
+              </apex:repeat>
+             
+              <td colspan="1" class="dataCell">
+              <apex:commandButton value="{!$Label.ButtonRemove}" action="{!removeInstallment}" rendered="{!installmentWrapper.paymetnInstallment.Payment_Status__c != 'Completed' && installmentWrapper.paymetnInstallment.Description__c != 'Down Payment'}" reRender="pb,msid">
+                <apex:param value="{!installmentWrapper.iCount}" name="unWantedInstallmentCount" />
+              </apex:commandButton>
+             </td> 
+          </tr>
+       </apex:repeat>
+       
+      </tbody> 
+      </table>
+      <apex:pageBlockButtons location="bottom">
+          <apex:commandButton styleClass="savebutton" value="{!$Label.ButtonSave}" onclick="savePayment();return false;" reRender="pb"/>
+          <apex:commandButton value="{!$Label.ButtonBackToOrder}" action="{!Cancel}"/>
+      </apex:pageBlockButtons>
+      </apex:pageBlock>
+   
+   </apex:form> 
+  </apex:page>

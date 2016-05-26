@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Product Bundle Line --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Product Bundle Line --></value>
+    </caseValues>
+    <fields>
+        <help><!-- When this is checked for a specific bundle line, Price of the  bundle line should be editable in Quote/Order Wizards --></help>
+        <label><!-- Is Price Editable --></label>
+        <name>Is_Price_Editable__c</name>
+    </fields>
+    <fields>
+        <help><!-- When this is checked for a specific bundle line, Quantity of the bundle line should be editable in Quote/Order Wizards --></help>
+        <label><!-- Is Quantity Editable --></label>
+        <name>Is_Quantity_Editable__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product Bundle --></label>
+        <name>Product_Bundle__c</name>
+        <relationshipLabel><!-- Product Bundle Lines --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Product Rate Plan Charge --></label>
+        <name>Product_Rate_Plan_Charge__c</name>
+        <relationshipLabel><!-- Product Bundle Lines --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Product Rate Plan --></label>
+        <name>Product_Rate_Plan__c</name>
+        <relationshipLabel><!-- Product Bundle Lines --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Invoice IT Product --></label>
+        <name>Product__c</name>
+        <relationshipLabel><!-- Product Bundle Lines --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- This field contains Default Quantity for Bundle line items --></help>
+        <label><!-- Quantity --></label>
+        <name>Quantity__c</name>
+    </fields>
+    <fields>
+        <help><!-- This field contains unit price of Bundle line items --></help>
+        <label><!-- Unit Price --></label>
+        <name>Unit_Price__c</name>
+    </fields>
+    <gender><!-- Neuter --></gender>
+    <layouts>
+        <layout>Product Bundle Line Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel><!-- Product Bundle Line Item Name --></nameFieldLabel>
+</CustomObjectTranslation>

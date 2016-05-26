@@ -1,0 +1,181 @@
+<apex:page standardController="Product_Bundle__c" extensions="ControllerProductBundle">
+    <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-1.5.1.min.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-ui-1.8.14.custom.min.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.jQuery, '/css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+      
+    <style type="text/css">
+      
+      .custPopup{
+          background-color: white;
+          border-width: 2px;
+          border-style: solid;
+          z-index: 9999;
+          left: 50%;
+          padding:10px;
+          position: absolute;
+          overflow-y:scroll;
+          overflow-x:hidden;
+          height: 350px;
+          /* These are the 3 css properties you will need to change so the popup 
+          displays in the center of the screen. First set the width. Then set 
+          margin-left to negative half of what the width is. You can add 
+          the height property for a fixed size pop up if you want.*/
+          width: 770px;
+          margin-left: -380px;
+          top:75px;
+      }
+      .popupBackground{
+          background-color:black;
+          opacity: 0.20;
+          filter: alpha(opacity = 20);
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          z-index: 9998;
+      }
+    </style>
+        
+    <script>
+         
+      $j = jQuery.noConflict();
+      $j(document).ready(function() {
+          $j("#dialog").dialog({  autoOpen: false, modal: true, position: 'center', width: 190, 
+                                height:70, dialogClass: "ui-dialog-no-titlebar ui-dialog-no-padding", resizable: true});
+      });
+      /*Function to show the modal dialog for jquery*/
+      function showDialog(){
+          $j("#dialog").dialog("open");
+          $j('#dialog').dialog('option', 'position', 'center');
+          return false;
+      }
+      /*Function to hide the modal dialog for jquery*/
+      function closeDialog(){
+          $j("#dialog").dialog("close");
+          return false;
+      }  
+      
+      function selectAllCheckboxes(obj,receivedInputID){
+          var inputCheckBox = document.getElementsByTagName("input");                 
+          for(var i=0; i<inputCheckBox.length; i++){         
+              if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){                                    
+                  inputCheckBox[i].checked = obj.checked;
+              }
+          }
+      }     
+         
+      function unSelectMainCheckbox(){
+          $j(".unSelectMain").attr('checked', false);  
+      }   
+        
+      </script>
+      <apex:sectionHeader title="{!productBundle.Name}" subtitle="Step 2 of 2" />
+      <apex:form >
+      <apex:actionStatus id="status" onstart="return showDialog()" onstop="return closeDialog()"/>
+       
+      <apex:pageMessages id="messege"></apex:pageMessages>
+          <apex:pageBlock title="" mode="edit">
+              <apex:pageBlockButtons >
+                 <apex:commandButton action="{!step1}" value="{!$Label.ButtonPrevious}" />
+                 <apex:commandButton action="{!save}" value="{!$Label.ButtonSave}" />
+                 <apex:commandButton action="{!cancel}" value="{!$Label.ButtonCancel}" />
+              </apex:pageBlockButtons>
+              
+               <apex:panelGrid columns="4">
+                  <apex:outputLabel value="Search Product" styleClass="labelCol"/>
+                  <apex:inputText value="{!searchstring}" id="searchString" >
+                      <c:autoComplete objectname="{!objectname}" searchfields="{!searchfields}" 
+                                  displayfields="{!displayfields}" orderfield="{!orderfield}" autocomplete_textbox="{!$Component.searchstring}"  
+                                  products_Filters="{!sFilterCriteria}" products_Limit="{!sProductsLimit}" />
+                  </apex:inputText>
+                  <img src="/s.gif" alt="Help" class="helpIcon" title="Enter Product Name"/>
+              </apex:panelGrid>
+                     
+          </apex:pageBlock>
+          
+          <apex:actionFunction name="addProduct" action="{!addProductDetail}" rerender="selectProduct,popupProductRatePlans,messege" status="status">
+              <apex:param name="productId" value="" />
+          </apex:actionFunction> 
+            
+        <apex:pageBlock title="Selected Products" id="selectProduct">
+          <apex:pageBlockSection collapsible="true" columns="1" id="blockSection">   
+             <apex:pageBlockTable value="{!map_Product_mapRate_Charges}" var="product" id="table">
+                 <apex:column >
+                     <apex:commandButton value="Remove" action="{!removeProduct}" reRender="selectProduct,messege" status="status">
+                       <apex:param name="productId" value="{!product}" />
+                     </apex:commandButton>
+                  </apex:column>    
+                 <apex:column value="{!map_ProductName[product]}" headerValue="Product Name" style="max-width:50px;word-wrap:break-word;"/>
+                 <apex:column headerValue="Rate Plan">
+                          <apex:pageBlockTable value="{!map_Product_mapRate_Charges[product]}" var="ratePlan">
+                              <apex:column value="{!map_RatePlanName[ratePlan]}"  headerValue="Rate Plan Name" style="max-width:50px;word-wrap:break-word;"/>                             
+                              <apex:column headerValue="Charges">
+                                 <apex:pageBlockTable value="{!map_Product_mapRate_Charges[product][ratePlan]}" var="charges">
+                                       <apex:column headerValue="Select">
+                                          <apex:inputcheckbox value="{!charges.isSelectedCharge}" />
+                                        </apex:column>
+                                      <apex:column value="{!charges.productCharge.Name}" headerValue="Charge Name" style="max-width:50px;word-wrap:break-word;"/>
+                                      <apex:column value="{!charges.productCharge.Price_Type__c}" headerValue="Price Type" />
+                                      
+                                      <apex:repeat value="{!$ObjectType.Product_Bundle_Line__c.FieldSets.ProductBundleLineFieldsInStep2}" var="fieldAPI">
+                                         <apex:column rendered="{!IF(!isTypeSelected, true, false)}" headerValue="{!fieldAPI.Label}">
+                                           <apex:inputField value="{!charges.productLine[fieldAPI]}"/>                                       
+                                         </apex:column>
+                                         
+                                          <apex:column headerValue="{!fieldAPI.Label}" rendered="{!IF(isTypeSelected && ($ObjectType.Product_Bundle_Line__c.Fields[fieldAPI].Name == $ObjectType.Product_Bundle_Line__c.fields.Quantity__c.Name || $ObjectType.Product_Bundle_Line__c.Fields[fieldAPI].Name == $ObjectType.Product_Bundle_Line__c.fields.Unit_Price__c.Name), true, false)}">
+                                           <apex:outputField value="{!charges.productLine[fieldAPI]}"/>                                       
+                                          </apex:column>
+                                          
+                                           <apex:column headerValue="{!fieldAPI.Label}" rendered="{!IF(isTypeSelected && $ObjectType.Product_Bundle_Line__c.Fields[fieldAPI].Name != $ObjectType.Product_Bundle_Line__c.fields.Quantity__c.Name && $ObjectType.Product_Bundle_Line__c.Fields[fieldAPI].Name != $ObjectType.Product_Bundle_Line__c.fields.Unit_Price__c.Name, true, false)}">
+                                             <apex:inputField value="{!charges.productLine[fieldAPI]}"/>                                       
+                                          </apex:column>
+                                     </apex:repeat>
+                                     
+                                   <apex:column headerValue="Is Price Editable" rendered="{!!isTypeSelected}">
+                                        <apex:inputField value="{!charges.productLine.Is_Price_Editable__c}" />
+                                   </apex:column>
+                                   
+                                   <apex:column headerValue="Is Quantity Editable" rendered="{!!isTypeSelected}">
+                                     <apex:inputField value="{!charges.productLine.Is_Quantity_Editable__c}" />
+                                   </apex:column>
+
+                                  </apex:pageBlockTable> 
+                                  </apex:column>          
+                            </apex:pageBlockTable> 
+                     </apex:column>                
+              </apex:pageBlockTable>      
+           </apex:pageBlockSection>  
+          </apex:pageBlock> 
+            
+     <!-- this is for pop up -->
+      <apex:outputPanel id="popupProductRatePlans">
+          <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayPopupForProductRP}"/> 
+          <apex:outputPanel styleClass="custPopup" layout="block" rendered="{!displayPopupForProductRP}">
+          <apex:commandButton style="Float:Right" action="{!closePopupForProductRatePlan}" rerender="popupProductRatePlans,selectProduct" image="{!URLFOR($Resource.InvoiceIt, '/images/Close_Box_Red.png')}" onclick="unSelectMainCheckbox();"/>
+          <apex:pageBlock >
+             <apex:pagemessages id="pm"/>
+              <apex:pageblockSection title="Select Product Rate Plan" collapsible="false"/>
+                <apex:pageBlockTable value="{!listOfClassProductRatePlan}" var="innerClassProductRatePlan">
+                    <apex:column >
+                     <apex:facet name="header">
+                          <apex:inputCheckbox onclick="selectAllCheckboxes(this,'{!JSINHTMLENCODE('inputId')}')" styleClass="unSelectMain" />
+                      </apex:facet>
+                        <apex:inputCheckbox value="{!innerClassProductRatePlan.isSelected}" id="inputId"/>
+                    </apex:column>
+                   <apex:column value="{!innerClassProductRatePlan.productRatePlan.Name}" />   
+                </apex:pageBlockTable>
+                <apex:pageBlockButtons >
+                     <apex:commandButton value="Add" action="{!saveAndCloseProductRPPopup}" rerender="popupProductRatePlans,selectProduct,messege" onclick="unSelectMainCheckbox();"/>   
+                </apex:pageBlockButtons>             
+          </apex:pageBlock>                         
+          </apex:outputPanel>
+       </apex:outputPanel>
+      <!-- End Of popUp --> 
+        
+      <!-- This div holds the image that is opened as a popup during processing -->
+      <div id="dialog">
+          <apex:image value="{!URLFOR($Resource.jQuery,'/css/smoothness/images/please_wait.gif')}"/>
+      </div>    
+      </apex:form>    
+  </apex:page>

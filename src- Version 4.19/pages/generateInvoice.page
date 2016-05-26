@@ -1,0 +1,51 @@
+<apex:page standardController="Job__c" extensions="ControllerGenerateInvoice">
+      <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-1.5.1.min.js')}"  />
+      <apex:includeScript value="{!URLFOR($Resource.jQuery, '/js/jquery-ui-1.8.14.custom.min.js')}"/>
+      <apex:stylesheet value="{!URLFOR($Resource.jQuery, '/css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+      <script>
+           $j = jQuery.noConflict();
+          function disableBtn() {
+              isSaving = true;
+              $j('.disablebutton').addClass('btnDisabled');
+              $j('.disablebutton').attr({value:'Processing...',disabled:'disabled'});
+              $j('.disablebuttonSave').addClass('btnDisabled');
+              $j('.disablebuttonSave').attr('value','Processing...');
+              
+          }
+      </script>
+
+    
+    <div class="bPageTitle">
+          <apex:sectionHeader title="Order" subtitle="Generate Invoice"/>
+          <div class="ptBreadcrumb">&nbsp;«&nbsp;
+              <a href="/{!HTMLENCODE(job.Id)}">Back to : {!HTMLENCODE(job.Name)}</a>
+          </div>
+      </div>
+    <apex:outputField value="{!Job__c.Account__c}" rendered="false"/>
+    <apex:pageMessages id="messages"/>
+    <apex:form id="form" rendered="{!job.Is_Billing_Master_Order__c != true}">
+    <apex:pageBlock title="{!$Label.GenerateInvoice}">
+       {!HTMLENCODE($Label.PleaseNote)}: {!HTMLENCODE($Label.invoiceConfirmationMessage)}&nbsp;&nbsp; 
+    </apex:pageBlock>
+          <!--
+                      Modified By        : Asish Kumar Behera   :28-02-2014  :INVOICEIT-320
+                      Comments        : previously when user clicks twice on the button it creates two invoices, 
+                                                  disable the button when user click on button
+              -->
+            <!--
+                      Modified By       : Rama Krishna.v  :4-4-2014 :INVOICEIT-320
+                      Comments        : added style classes to below buttons to disableof onclick.
+           -->
+      <apex:actionStatus id="saveStatus">
+                      <apex:facet name="stop">
+                         <apex:commandButton action="{!generateInvoice}" value="{!$Label.ButtonConfirm}" reRender="messages,form" onclick="disableBtn();" status="saveStatus"/>
+                      </apex:facet>
+                      <apex:facet name="start">
+                          <apex:commandButton value="Processing..." disabled="true" status="saveStatus"/>
+                      </apex:facet>     
+              </apex:actionStatus>  
+        
+    <apex:commandButton action="{!cancel}" value="{!$Label.ButtonCancel}" onclick="return confirmCancel()" immediate="true" styleClass="disablebutton"/>
+    </apex:form>
+    
+  </apex:page>

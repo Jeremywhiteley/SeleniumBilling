@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>support</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Configuration object. The administrator should create one Account for the appropriate Payment Gateway.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Default__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Default</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Email_Customer__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>If selected purchase confirmation email is sent.
+This is only used for Paypal &amp; Authorize.Net</inlineHelpText>
+        <label>Email Customer</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Exact_ID_Security_Key__c</fullName>
+        <description>Required for first data and Authorize.net CIM Payment Gateway</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Required for first data and Authorize.net CIM Payment Gateway</inlineHelpText>
+        <label>Exact ID Security Key</label>
+        <length>128</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Exact_ID__c</fullName>
+        <description>Exact ID - also known as the Gateway ID, This is used for FirstData and Authorize.net CIM</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Exact ID - also known as the Gateway ID, This is used for FirstData and Authorize.net CIM</inlineHelpText>
+        <label>Exact ID</label>
+        <length>128</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Gateway_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Gateway Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Authorize.net</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PayPal</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>WireCard</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ACH</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FirstData</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Authorize.net CIM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Stripe</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SagePay</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Eway</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BrainTree</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CyberSource</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CyberSource_CC_Token</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Merchant_ID__c</fullName>
+        <description>Also know as:
+&quot;API Login&quot; on Authorize.net
+&quot;Merchant Login&quot; on PayPal(Pay Flow Pro)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Also know as:
+&quot;API Login&quot; on Authorize.net
+&quot;Merchant Login&quot; on PayPal(Pay Flow Pro)</inlineHelpText>
+        <label>Merchant ID</label>
+        <length>128</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Merchant_Reference__c</fullName>
+        <description>Not used by Authorize.net
+&quot;Partner&quot; in Paypal(Payflow)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Not used by Authorize.net
+&quot;Partner&quot; in Paypal(Payflow)</inlineHelpText>
+        <label>Merchant Reference</label>
+        <length>128</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Merchant_Seal_User_Id__c</fullName>
+        <description>Not used by Paypal and Wirecard
+&quot;Merchant Seal&quot; in Authorize.net</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Not used by Paypal and Wirecard
+&quot;Merchant Seal&quot; in Authorize.net</inlineHelpText>
+        <label>Merchant Seal User Id</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Security_Key__c</fullName>
+        <description>Also known as:
+&quot;Transaction Key&quot; on Authorize.net
+&quot;Password&quot; on PayPal(Payflow Pro)
+&quot;Secret Key&quot; on Stripe</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Also known as:
+&quot;Transaction Key&quot; on Authorize.net
+&quot;Password&quot; on PayPal(Payflow Pro)
+&quot;Secret Key&quot; on Stripe</inlineHelpText>
+        <label>Merchant Security Key</label>
+        <length>128</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>all</maskType>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Test_Mode__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>Test Mode</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Transaction_Security_Key__c</fullName>
+        <description>Transaction Security Key used by CyberSource</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Transaction Security Key used by CyberSource</inlineHelpText>
+        <label>Transaction Security Key</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <label>Payment Gateway</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Gateway_Type__c</columns>
+        <columns>Active__c</columns>
+        <columns>Default__c</columns>
+        <columns>Test_Mode__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Payment Gateways</label>
+        <language>en_US</language>
+    </listViews>
+    <nameField>
+        <label>Payment Gateway Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Payment Gateways</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Default__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Test_Mode__c</customTabListAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Active_payment_methods_can_be_default</fullName>
+        <active>true</active>
+        <description>Only active payment methods can be default</description>
+        <errorConditionFormula>Default__c &amp;&amp; Active__c = false</errorConditionFormula>
+        <errorDisplayField>Active__c</errorDisplayField>
+        <errorMessage>Only active payment methods can be default</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Exact_ID_And_Exact_ID_is_Required</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(OR(ISPICKVAL(Gateway_Type__c, &apos;FirstData&apos;), ISPICKVAL(Gateway_Type__c, &apos;Authorize.net CIM&apos;)) ,OR(Exact_ID__c == null, Exact_ID_Security_Key__c == null),false)</errorConditionFormula>
+        <errorMessage>Exact ID &amp; Exact ID Security Key is required for FirstData or Authorize.net CIM</errorMessage>
+    </validationRules>
+</CustomObject>

@@ -1,0 +1,38 @@
+<apex:page standardController="Job__c" extensions="ControllerCreateAdhocInvoice" tabStyle="Invoice__c">
+  
+<apex:form >
+    <apex:sectionHeader title="Generate Ad-hoc Invoice" subtitle="Generate Ad-hoc Invoice"/>
+     
+     <div class="bPageTitle">
+        <div class="ptBreadcrumb">&nbsp;«&nbsp;
+            <a href="/{!HTMLENCODE(order.Id)}">Back to : {!HTMLENCODE(order.Name)}</a>
+        </div>
+    </div>
+      
+      <apex:pageMessages id="messages"/>
+        <apex:pageBlock title="Choose Invoice Date and Target Date." id="pb" rendered="{!order.Is_Billing_Master_Order__c != true}">
+            <apex:pageBlockSection columns="1">
+                <apex:outputField value="{!order.Name}" />
+                <!-- The following 3 fields are used as a dummy to bind the values to the controller -->
+                <apex:inputField value="{!job.Service_Activation_Date__c}" label="Invoice Date" required="true"/>
+                <apex:inputField value="{!job.Service_End_Date__c}"  label="Target Date" required="true"/> 
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                    <apex:actionStatus id="SaveButtonStatus">
+              <apex:facet name="stop">
+               <apex:outputPanel >
+                <apex:commandButton action="{!createAdhocInvoice}" value="Generate Invoice" reRender="messages,pb" status="SaveButtonStatus" />
+                <apex:commandButton action="{!cancel}" value="{!$Label.ButtonCancel}"/>
+               </apex:outputPanel>
+              </apex:facet>
+              <apex:facet name="start">
+               <apex:outputPanel >
+                <apex:commandButton value="Processing..." disabled="true" />
+                <apex:commandButton value="Processing..." disabled="true" />
+               </apex:outputPanel>
+              </apex:facet>
+             </apex:actionStatus>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

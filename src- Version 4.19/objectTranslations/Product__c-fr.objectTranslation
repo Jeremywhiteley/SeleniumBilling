@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Invoice IT Product --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Invoice IT Product --></value>
+    </caseValues>
+    <fields>
+        <label><!-- Available Quantity --></label>
+        <name>Available_Quantity__c</name>
+    </fields>
+    <fields>
+        <label>description</label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Dispatched Quantity --></label>
+        <name>Dispatched_Quantity__c</name>
+    </fields>
+    <fields>
+        <label><!-- Effective Period --></label>
+        <name>Effective_Period__c</name>
+    </fields>
+    <fields>
+        <label><!-- No. of Rate Plans --></label>
+        <name>No_of_Rate_Plans__c</name>
+    </fields>
+    <fields>
+        <label>code de produits</label>
+        <name>Product_Code__c</name>
+    </fields>
+    <fields>
+        <label>famille de produits</label>
+        <name>Product_Family__c</name>
+        <picklistValues>
+            <masterLabel>Default</masterLabel>
+            <translation>par défaut</translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Status --></label>
+        <name>Status__c</name>
+    </fields>
+    <fields>
+        <label>valide à partir de la date</label>
+        <name>Valid_From_Date__c</name>
+    </fields>
+    <fields>
+        <label>valide jusqu&apos;à la date</label>
+        <name>Valid_To_Date__c</name>
+    </fields>
+    <gender><!-- Masculine --></gender>
+    <layouts>
+        <layout>Product Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel><!-- Product Name --></nameFieldLabel>
+    <startsWith><!-- Consonant --></startsWith>
+    <webLinks>
+        <label><!-- New_Invoice_IT_Product --></label>
+        <name>New_Invoice_IT_Product</name>
+    </webLinks>
+</CustomObjectTranslation>

@@ -1,0 +1,98 @@
+<apex:page standardController="Invoice_RunScheduler__c" extensions="ControllerForScheduling">
+ <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-1.5.1.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.jQuery, 'js/jquery-ui-1.8.14.custom.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.jQuery,'css/smoothness/jquery-ui-1.8.14.custom.css')}"/>
+  <script>
+    function confirmCancel() {
+        if(confirm("{!JSENCODE($Label.CancellingthiswoulddiscardthechangesPleaseconfirm)}")) 
+        {
+           return true;
+        }
+        return false;
+    } 
+    function confirmCanceltheScheduler() {
+        if(confirm("{!JSENCODE($Label.Theoldschedulewillbeoverridden)}")) 
+        {
+           return true;
+        }
+        return false;
+    } 
+    
+     var isSaving;
+        isSaving = false;
+        $j = jQuery.noConflict();
+       function disableBtn() {
+            isSaving = true;
+            $j('.disablebutton').addClass('btnDisabled');
+            $j('.disablebutton').attr({value:'Saving...',disabled:'disabled'});
+            $j('.disablebuttonSave').addClass('btnDisabled');
+            $j('.disablebuttonSave').attr('value','Saving...');
+            
+        }
+  </script> 
+  <apex:form id="form1">
+   <apex:sectionHeader title="{!$Label.InvoiceRunScheduler}" subtitle="{!$Label.NewInvoiceRunScheduler}" />
+   <apex:actionFunction name="onChangeOfType"  action="{!onChangeOfType}" reRender="mainSection" />
+   <apex:actionFunction name="onChangeOfStartDate" action="{!onChangeStartDate}" reRender="dailySection"/>
+   <apex:pageBlock mode="edit" id="mainSection">
+     <apex:pageBlockButtons >
+         <!--
+                  Modified By           : Asish Kumar Behera   :28-02-2014   :INVOICEIT-320
+                  Comments           : previously when user clicks twice on the button it creates two invoices, 
+                                                  disable the button when user click on button
+          --> 
+            <!--
+                    Modified By        : Rama Krishna.v   :4-4-2014    :INVOICEIT-320
+                    Comments        : added style classes to below buttons to disableof onclick.
+                   -->
+            <apex:actionStatus id="saveStatus">
+            <apex:facet name="stop">  
+                <apex:commandButton action="{!saveInvoiceRunScheduler}" value="{!$Label.ButtonSave}" rendered="{!!isEditMode}" onclick="disableBtn();"  reRender="messages,mainSection" status="saveStatus" styleClass="disablebutton"/>    
+            </apex:facet>
+            <apex:facet name="start">
+                <apex:commandButton value="Saving..." disabled="true" status="saveStatus"/>
+            </apex:facet>   
+        </apex:actionStatus>
+        
+        <apex:actionStatus id="saveStatusForEdit">
+            <apex:facet name="stop"> 
+                <apex:commandButton action="{!saveInvoiceRunScheduler}" value="{!$Label.ButtonSave}" rendered="{!isEditMode}" onclick="disableBtn();"  reRender="messages,mainSection" status="saveStatusForEdit" styleClass="disablebutton"/>    
+            </apex:facet>
+            <apex:facet name="start">
+                <apex:commandButton value="Saving..." disabled="true" status="saveStatusForEdit"/>
+            </apex:facet>
+                            
+        </apex:actionStatus>
+        
+        <apex:commandButton action="{!cancel}" value="{!$Label.ButtonCancel}" onclick="return confirmCancel()" immediate="true"  styleClass="disablebutton"/>
+     </apex:pageBlockButtons>
+     <apex:pageMessages id="messages"/>
+     <apex:pageBlockSection >
+         <apex:repeat value="{!$ObjectType.Invoice_RunScheduler__c.FieldSets.InvoiceSchedulerPage}" var="fieldAPI">
+                            <apex:inputField value="{!invoiceRunScheduler[fieldAPI]}" />
+                        </apex:repeat>
+         <apex:inputField value="{!invoiceRunScheduler.Type__c}" onchange="onChangeOfType()" required="true" id="type"/>
+      </apex:pageBlockSection>   
+   <apex:pageBlockSection title="{!$Label.Run} {!invoiceRunScheduler.Type__c}" columns="1" rendered="{!invoiceRunScheduler.Type__c == $Label.OptionOnce}">
+          <apex:inputField value="{!invoiceRunScheduler.Start_date_and_time__c}"/>
+          <apex:inputField value="{!invoiceRunScheduler.Invoice_Date__c}"/>
+          <apex:inputField value="{!invoiceRunScheduler.Target_Date__c}"/>
+      </apex:pageBlockSection>
+      <apex:pageBlockSection title="{!$Label.Run} {!invoiceRunScheduler.Type__c}" columns="1" rendered="{!invoiceRunScheduler.Type__c == $Label.OptionWeekly}">
+          <apex:inputField value="{!invoiceRunScheduler.Start_date_and_time__c}"/>
+          <apex:inputField value="{!invoiceRunScheduler.Invoice_Day_of_week__c}"/>
+          <apex:inputField value="{!invoiceRunScheduler.Target_Day_of_Week__c}" />
+      </apex:pageBlockSection>
+      <apex:pageBlockSection title="{!$Label.Run} {!invoiceRunScheduler.Type__c}" columns="1" rendered="{!invoiceRunScheduler.Type__c == $Label.OptionMonthly}">
+          <apex:inputField value="{!invoiceRunScheduler.Start_date_and_time__c}" />
+          <apex:inputField value="{!invoiceRunScheduler.Invoice_Day_Of_Month__c}" />
+          <apex:inputField value="{!invoiceRunScheduler.Target_Day_Of_Month__c}" />
+      </apex:pageBlockSection> 
+      <apex:pageBlockSection title="{!$Label.Run} {!invoiceRunScheduler.Type__c}" columns="1" rendered="{!invoiceRunScheduler.Type__c == $Label.OptionDaily}" id="dailySection">
+          <apex:inputField value="{!invoiceRunScheduler.Start_date_and_time__c}" onchange="onChangeOfStartDate()" />
+          <apex:outputField value="{!invoiceRunScheduler.Invoice_Date__c}"/>
+          <apex:outputField value="{!invoiceRunScheduler.Target_Date__c}"/>
+          </apex:pageBlockSection>
+    </apex:pageBlock>
+   </apex:form>
+</apex:page>

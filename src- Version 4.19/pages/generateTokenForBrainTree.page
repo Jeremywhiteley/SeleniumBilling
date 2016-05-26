@@ -1,0 +1,22 @@
+<apex:page standardController="Account" extensions="ControllerForGenerateTokenForBrainTree" sidebar="false">
+     <apex:sectionHeader title="Customer Management" subtitle="Generate Token" />
+      <apex:form >
+          <apex:pageblock >
+          <apex:pageMessages />
+              <apex:pageblocksection collapsible="false" title="Please enter your card information to create token" columns="1" rendered="{!isRender}">
+                   <apex:inputField value="{!paymentMethod.Name_on_Card__c}" label="CardHolder Name" required="true"/>
+                   <apex:inputField value="{!paymentMethod.Card_Type__c}" required="true"/>
+                   <apex:inputField value="{!paymentMethod.Card_Number__c}" required="true"/>  
+                 <apex:inputField value="{!paymentMethod.CVV__c}" required="true"/> 
+                 <apex:inputField value="{!paymentMethod.Card_Expiration_Month__c}" required="true"/> 
+                 <apex:inputField value="{!paymentMethod.Card_Expiration_Year__c}" required="true"/> 
+                 <apex:inputField value="{!paymentMethod.Default__c}" /> 
+              </apex:pageblocksection>
+              <apex:pageblockbuttons location="Bottom">
+                  <apex:commandbutton value="Generate Token" action="{!generateToken}" rendered="{!isRender}"/>
+                  <apex:commandbutton value="Cancel" action="{!Cancel}" />
+              </apex:pageblockbuttons>
+          </apex:pageblock>
+      </apex:form>
+
+  </apex:page>

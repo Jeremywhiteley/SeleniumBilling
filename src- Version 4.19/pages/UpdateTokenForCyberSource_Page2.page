@@ -1,0 +1,30 @@
+<apex:page standardController="Account" extensions="ControllerForUpdateTokenForCyberSource" sidebar="false">
+       <apex:sectionHeader title="Customer Update Management" subtitle="Update Token" />
+        <apex:form >
+            <apex:pageblock >
+            <apex:pageMessages />
+                <apex:pageblocksection collapsible="false" title="Please update your card information" columns="1">
+                     <apex:inputField value="{!paymentMethod.Billing_First_Name__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Last_Name__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Address__c }" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_City__c}" required="true"/> 
+                     <apex:inputField value="{!paymentMethod.Billing_State_Province__c}" required="true"/> 
+                     <apex:inputField value="{!paymentMethod.Billing_Zip_Postal__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Country__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Billing_Email__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Name_on_Card__c}" required="true"/>
+                     <apex:inputField value="{!paymentMethod.Card_Type__c}" required="true"/>
+                   <apex:inputField value="{!paymentMethod.Card_Expiration_Month__c}" required="true"/> 
+                   <apex:inputField value="{!paymentMethod.Card_Expiration_Year__c}" required="true"/> 
+                   
+                </apex:pageblocksection>
+                
+                <apex:pageblockbuttons location="Bottom">
+                    <apex:commandbutton value="Update Token" action="{!updateToken}"/>
+                    
+                    <apex:commandbutton value="Cancel" action="{!Cancel}" />
+                </apex:pageblockbuttons>
+            </apex:pageblock>
+        </apex:form>
+
+    </apex:page>

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value><!-- Quote Rate Plan Charge --></value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value><!-- Quote Rate Plan Charge --></value>
+    </caseValues>
+    <fields>
+        <label>Boekhoudcode</label>
+        <name>Accounting_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Charge Code --></label>
+        <name>Charge_Code__c</name>
+    </fields>
+    <fields>
+        <help><!-- The Quantity your customer commits to spend on a minimum. --></help>
+        <label><!-- Committed Quantity --></label>
+        <name>Committed_Quantity__c</name>
+    </fields>
+    <fields>
+        <label>Kostprijs per eenheid</label>
+        <name>Cost_Price__c</name>
+    </fields>
+    <fields>
+        <help><!-- Quantity * Unit Cost --></help>
+        <label>Totale kostprijs</label>
+        <name>Cost__c</name>
+    </fields>
+    <fields>
+        <label>Munteenheid</label>
+        <name>CurrencyL__c</name>
+        <relationshipLabel><!-- Quote Rate Plan Charge --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Deferred Revenue Accounting Code --></label>
+        <name>Deferred_Revenue_Accounting_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Discount % --></label>
+        <name>Discount_Percent__c</name>
+    </fields>
+    <fields>
+        <help><!-- This determines the Type of Discount(i.e discount applied by Value or Percentage). --></help>
+        <label><!-- Discount Type --></label>
+        <name>Discount_Type__c</name>
+        <picklistValues>
+            <masterLabel>%</masterLabel>
+            <translation><!-- % --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Value</masterLabel>
+            <translation><!-- Value --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label>Kortingsbedrag</label>
+        <name>Discount_Value__c</name>
+    </fields>
+    <fields>
+        <label><!-- Obsolete_Exempted From VAT --></label>
+        <name>Exempted_From_VAT__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Price Editable in Quote Wizard --></label>
+        <name>Is_Product_Editable__c</name>
+    </fields>
+    <fields>
+        <help><!-- This is the Maximum Amount your customer will spend for this service. This is the capped Amount. --></help>
+        <label><!-- Max Customer Spend --></label>
+        <name>Max_Customer_Spend__c</name>
+    </fields>
+    <fields>
+        <help><!-- This is the minimum amount your Customer has committed to spend --></help>
+        <label><!-- Min Customer Spend --></label>
+        <name>Min_Customer_Spend__c</name>
+    </fields>
+    <fields>
+        <label><!-- Net Total --></label>
+        <name>Net_Total__c</name>
+    </fields>
+    <fields>
+        <label><!-- % of Other Charges --></label>
+        <name>Percentage_of_other_Charges__c</name>
+    </fields>
+    <fields>
+        <label>Prijsopmaak</label>
+        <name>Price_Format__c</name>
+        <picklistValues>
+            <masterLabel>Flat Fee Pricing</masterLabel>
+            <translation><!-- Flat Fee Pricing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Per Unit Pricing</masterLabel>
+            <translation><!-- Per Unit Pricing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Percentage Pricing</masterLabel>
+            <translation><!-- Percentage Pricing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Tiered Pricing</masterLabel>
+            <translation><!-- Tiered Pricing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Volume Pricing</masterLabel>
+            <translation><!-- Volume Pricing --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label>Prijstype</label>
+        <name>Price_Type__c</name>
+        <picklistValues>
+            <masterLabel>Annual</masterLabel>
+            <translation><!-- Annual --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Half Yearly</masterLabel>
+            <translation><!-- Half Yearly --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Monthly</masterLabel>
+            <translation><!-- Monthly --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>One Time</masterLabel>
+            <translation>Eenmaal</translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Quarterly</masterLabel>
+            <translation><!-- Quarterly --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Usage</masterLabel>
+            <translation><!-- Usage --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Weekly</masterLabel>
+            <translation><!-- Weekly --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Quantity * Unit Price --></help>
+        <label>Totale verkoopprijs</label>
+        <name>Price__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product Bundle Line --></label>
+        <name>Product_Bundle_Line__c</name>
+        <relationshipLabel><!-- Quote Rate Plan Charges --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- Use this field if you would want to configure different VAT percentages for different categories. --></help>
+        <label><!-- Product Charge Category --></label>
+        <name>Product_Charge_Category__c</name>
+        <picklistValues>
+            <masterLabel>Non Taxable</masterLabel>
+            <translation><!-- Non Taxable --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Taxable</masterLabel>
+            <translation><!-- Taxable --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label>Debitering producttariefplan</label>
+        <name>Product_Rate_Plan_Charge__c</name>
+        <relationshipLabel><!-- Quote Rate Plan Charge --></relationshipLabel>
+    </fields>
+    <fields>
+        <label>Winst</label>
+        <name>Profit__c</name>
+    </fields>
+    <fields>
+        <label>Hoeveelheid</label>
+        <name>Quantity__c</name>
+    </fields>
+    <fields>
+        <label>Offertetariefplan</label>
+        <name>Quote_Rate_Plan__c</name>
+        <relationshipLabel><!-- Quote Rate Plan Charge --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Quote --></label>
+        <name>Quote__c</name>
+        <relationshipLabel><!-- Quote Rate Plan Charges --></relationshipLabel>
+    </fields>
+    <fields>
+        <label>Herhaalde periode</label>
+        <name>Recurring_Period__c</name>
+        <picklistValues>
+            <masterLabel>Default</masterLabel>
+            <translation>Wekelijks</translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Renewed From --></label>
+        <name>Renewed_From__c</name>
+        <relationshipLabel><!-- Quote Rate Plan Charges --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- Row total of this charge 
+Subtotal - Discount + VAT + Tax --></help>
+        <label><!-- Row Total --></label>
+        <name>Row_Total__c</name>
+    </fields>
+    <fields>
+        <help><!-- This holds the Sequence in which the charges are created and appears on the pdf files --></help>
+        <label>Reeksnummer</label>
+        <name>Sequence_No__c</name>
+    </fields>
+    <fields>
+        <label>Belastingcode</label>
+        <name>Tax_Code__c</name>
+    </fields>
+    <fields>
+        <label><!-- Tax Percentage Applied --></label>
+        <name>Tax_Percentage__c</name>
+    </fields>
+    <fields>
+        <label>Belasting</label>
+        <name>Tax__c</name>
+    </fields>
+    <fields>
+        <label>Meeteenheid</label>
+        <name>Unit_Of_Measurement__c</name>
+        <picklistValues>
+            <masterLabel>Day</masterLabel>
+            <translation><!-- Day --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Hour</masterLabel>
+            <translation><!-- Hour --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>License</masterLabel>
+            <translation><!-- License --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Unit</masterLabel>
+            <translation>Eenheid</translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label>Verkoopprijs per eenheid</label>
+        <name>Unit_Price__c</name>
+    </fields>
+    <fields>
+        <label><!-- Uplift % --></label>
+        <name>Uplift__c</name>
+    </fields>
+    <fields>
+        <label><!-- VAT Percentage Applied --></label>
+        <name>VAT_Percentage__c</name>
+    </fields>
+    <fields>
+        <label>btw</label>
+        <name>VAT__c</name>
+    </fields>
+    <gender><!-- Neuter --></gender>
+    <layouts>
+        <layout>Quote Rate Plan Charge Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing --></label>
+            <section>Pricing</section>
+        </sections>
+        <sections>
+            <label><!-- Product Info --></label>
+            <section>Product Info</section>
+        </sections>
+        <sections>
+            <label><!-- Profitability --></label>
+            <section>Profitability</section>
+        </sections>
+        <sections>
+            <label><!-- Tax / VAT --></label>
+            <section>Tax / VAT</section>
+        </sections>
+        <sections>
+            <label><!-- Transaction / Volume Grouping --></label>
+            <section>Transaction / Volume Grouping</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel><!-- Charge Name --></nameFieldLabel>
+</CustomObjectTranslation>
