@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="test" default="exec" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="test" default="exec" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:sf="antlib:com.salesforce">
 
+
+	 <property file="build.properties"/>
+    <property environment="env"/>
 	<property name="src" value="./src" />
 	<property name="lib" value="./lib" />
 	<property name="bin" value="./bin" />
@@ -15,17 +18,24 @@
 	</tstamp>
 	<property name="testresultsfolder" value="${archive}/${build_time}" />
 
-<project name="Sample usage of Salesforce Ant tasks" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
-
-    <property file="build.properties"/>
-    <property environment="env"/>	
-
 	<path id="test.classpath">
 		<pathelement location="${bin}" />
 		<fileset dir="${lib}">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
+	
+	
+	 <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="../ant-salesforce.jar" />        	
+        </classpath>
+    </taskdef>
+	
+	<target name="deploy">
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="src- Version 4.19" rollbackOnError="true" />
+    </target>
+	
 
 	<artifact:dependencies pathId="dependency.classpath">
 			<dependency groupId="junit" artifactId="junit" version="4.12" scope="test" />
@@ -57,7 +67,7 @@
 		</target>
 
 	<target name="compile" depends="init,set_conditions,replace">
-		<javac source="1.8" srcdir="${src}" fork="false" destdir="${bin}">
+		<javac source="1.7" srcdir="${src}" fork="true" destdir="${bin}">
 			<classpath refid="dependency.classpath" />
 			<classpath>
 				<pathelement path="${bin}">
@@ -82,7 +92,7 @@
 					<include name="**/*.jar" />
 				</fileset>
 			</classpath>
-
+			<classpath refid="dependency.classpath" />
 			<formatter type="xml" />
 
 			<batchtest fork="yes" todir="${report}/xml">
@@ -221,9 +231,6 @@
 			<fileset dir="${report}" />
 		</copy>
 		<fail message="Test failure detected, check test results." if="test.failed" />
+
 	</target>
-	
-	<target name="deploy">
-      		<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="Retrieve" rollbackOnError="true" />
-    	</target>
 </project>
